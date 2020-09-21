@@ -1,0 +1,178 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+div a {
+  color: #0073bb;
+}
+
+.landing-header {
+  position: relative;
+  padding-top: 12%;
+  padding-left: 12%;
+}
+
+.form-rounded {
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  background-color: white;
+  color: black;
+  padding-top: 0.8%;
+}
+
+.logo {
+  width: 55%;
+  height: 40%;
+  padding-left: 35%;
+}
+
+.bg-overlay {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('./images/homepage_image.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.nav-landing {
+  color: #fff;
+  margin-left: 3%;
+}
+.landingtextbox {
+  display: inline-block;
+  /* position: relative; */
+  width: 20%;
+}
+
+.login-form .form-control {
+  background: #f7f7f7 none repeat scroll 0 0;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.formControl {
+  margin-left: 10%;
+  width: 80%;
+}
+
+.formtext {
+  text-align: center;
+}
+
+.alert-danger {
+  margin-left: 10%;
+  width: 26rem;
+}
+
+.hyperlink {
+  color: 'blue';
+}
+.forgot {
+  margin-left: 48%;
+  margin-bottom: 5%;
+}
+
+.banner {
+  background-color: red;
+}
+
+.banner-img {
+  width: 8%;
+  height: 8%;
+  margin-left: 48%;
+}
+
+.signupimg {
+  float: right;
+  padding: 3rem;
+}
+
+.profile-logo {
+  height: 40px;
+  width: 60px;
+  margin-left: 20px;
+}
+
+.nav-search-btn {
+  margin-right: 20%;
+}
+
+Jumbotron {
+  background-color: #ececec;
+}
+
+.profileName {
+  display: inline-block;
+  margin-left: 5%;
+  margin-top: 3%;
+}
+
+.profilePic {
+  width: 35%;
+  height: 38%;
+  margin-left: 9%;
+  background-color: #ececec;
+}
+
+.profileImg {
+  width: 100%;
+  height: 90%;
+}
+
+.vertical-divider {
+  text-align: left;
+  height: 20%;
+  margin-top: 4%;
+  border-left: 3px solid #f2f7f9;
+}
+
+.formgroup {
+  margin-bottom: 0%;
+}
+
+.ver-div {
+  text-align: left;
+  height: 100%;
+  border-left: 1px solid #e6e6e6;
+}
