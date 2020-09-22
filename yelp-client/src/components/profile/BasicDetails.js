@@ -12,10 +12,9 @@ class BasicDetails extends Component {
     return (
       <React.Fragment>
         <UserProfileNavBar></UserProfileNavBar>
-        <UserProfileJumbo></UserProfileJumbo>
-        <div class='container'>
+        <div class='container mt-5'>
           <div class='row'>
-            <div class='col-md-4 mt-5'>
+            <div class='col-md-4 mt-3'>
               <NavList></NavList>
             </div>
             <div class='col-md-6' style={{ marginBottom: '5%' }}>

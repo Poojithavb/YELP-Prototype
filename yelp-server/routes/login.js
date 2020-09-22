@@ -21,18 +21,16 @@ router.post('/', (req, res) => {
         });
         req.session.user = req.body.email_id;
         const userObject = {
-          user_id: result[0][0].user_id,
+          cust_id: result[0][0].cust_id,
           firstname: result[0][0].firstname,
           lastname: result[0][0].lastname,
+          email: result[0][0].email,
         };
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(JSON.stringify(userObject));
-      } else {
-        res.end('Username/password is wrong');
       }
-    } else if (result[0][0].status === 0) {
-      // res.writeHead(401, { 'Content-Type': 'text/plain' });
-      res.end('User doesnot exists');
+    } else {
+      res.end('Username/password is wrong');
     }
   });
 });

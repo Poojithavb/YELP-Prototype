@@ -102,7 +102,7 @@ div a {
 
 .alert-danger {
   margin-left: 10%;
-  width: 26rem;
+  width: 27rem;
 }
 
 .hyperlink {
@@ -118,8 +118,8 @@ div a {
 }
 
 .banner-img {
-  width: 8%;
-  height: 8%;
+  width: 10%;
+  height: 10%;
   margin-left: 48%;
 }
 
@@ -129,8 +129,8 @@ div a {
 }
 
 .profile-logo {
-  height: 40px;
-  width: 60px;
+  height: 50px;
+  width: 70px;
   margin-left: 20px;
 }
 
@@ -164,6 +164,7 @@ Jumbotron {
   text-align: left;
   height: 20%;
   margin-top: 4%;
+  margin-left: 2%;
   border-left: 3px solid #f2f7f9;
 }
 

@@ -2,29 +2,18 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import NavigationSignUp from '../components/Signup/NavigationSignUp';
 import signupimg from '../images/signup_img.png';
-import connectionServer from '../webConfig';
 import { Redirect } from 'react-router';
-import cookie from 'react-cookies';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { custLogin } from '../store/actions/loginAction';
 import '../App.css';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      email_id: '',
-      password: '',
-      authFlag: false,
-      errors: '',
-    };
+    this.state = {};
     this.changeHandler = this.changeHandler.bind(this);
     this.submitLogin = this.submitLogin.bind(this);
-  }
-
-  componentWillMount() {
-    this.setState({
-      authFlag: false,
-    });
   }
 
   changeHandler(e) {
@@ -34,49 +23,31 @@ class Login extends Component {
   }
 
   submitLogin(e) {
-    const headers = new Headers();
     e.preventDefault();
     const data = {
       email_id: this.state.email_id,
       password: this.state.password,
     };
-    axios.defaults.withCredentials = true;
-    axios
-      .post(`${connectionServer}/yelp/login`, data)
-      .then((response) => {
-        console.log('Status Code : ', response.status);
-        if (response.status === 200 && response.data.firstname) {
-          this.setState({
-            authFlag: true,
-            errors: '',
-          });
-          const { emailId } = this.state;
-          sessionStorage.setItem('email_id', emailId);
-          sessionStorage.setItem('firstname', response.data.firstname);
-          sessionStorage.setItem('lastname', response.data.lastname);
-          sessionStorage.setItem('cust_id', response.data.cust_id);
-        } else {
-          console.log(response);
-          this.setState({
-            authFlag: false,
-            errors: '',
-          });
-        }
-
-        if (response.data === 'Username/password is wrong') {
-          const errorcredentials = 'Username/password is wrong';
-          this.setState({ errors: errorcredentials });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.props.custLogin(data);
+    this.setState({
+      authFlag: 1,
+    });
   }
 
   render() {
     let redirectVar = null;
-    if (cookie.load('cookie')) {
+    let message = '';
+    if (this.props.user && this.props.user.cust_id) {
+      localStorage.setItem('email_id', this.props.user.email);
+      localStorage.setItem('first_name', this.props.user.firstname);
+      localStorage.setItem('user_id', this.props.user.cust_id);
+      localStorage.setItem('last_name', this.props.user.lastname);
       redirectVar = <Redirect to='/' />;
+    } else if (
+      this.props.user === 'Username/password is wrong' &&
+      this.state.authFlag
+    ) {
+      message = 'Incorrect Username/Password';
     }
     return (
       <React.Fragment>
@@ -131,10 +102,8 @@ class Login extends Component {
                       Sign in
                     </button>
                   </div>
-                  {this.state.errors && (
-                    <div className='alert alert-danger'>
-                      {this.state.errors}
-                    </div>
+                  {message && (
+                    <div className='alert alert-danger'>{message}</div>
                   )}
                 </form>
               </div>
@@ -153,4 +122,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  custLogin: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.login.user,
+  };
+};
+
+export default connect(mapStateToProps, { custLogin })(Login);
