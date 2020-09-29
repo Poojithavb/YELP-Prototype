@@ -20,12 +20,23 @@ router.post('/', (req, res) => {
           path: '/',
         });
         req.session.user = req.body.email_id;
-        const userObject = {
-          cust_id: result[0][0].cust_id,
-          firstname: result[0][0].firstname,
-          lastname: result[0][0].lastname,
-          email: result[0][0].email,
-        };
+        let userObject = {};
+        if (result[0][0].cust_id) {
+          userObject = {
+            cust_id: result[0][0].cust_id,
+            firstname: result[0][0].firstname,
+            lastname: result[0][0].lastname,
+            email: result[0][0].email,
+          };
+        } else if (result[0][0].rest_id) {
+          userObject = {
+            rest_id: result[0][0].rest_id,
+            name: result[0][0].name,
+            email: result[0][0].email,
+            address: result[0][0].address,
+            zipcode: result[0][0].zipcode,
+          };
+        }
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(JSON.stringify(userObject));
       }

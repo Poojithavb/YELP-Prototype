@@ -2,19 +2,16 @@ import React, { Component } from 'react';
 import NavigationSignUp from './NavigationSignUp';
 import signupimg from '../../images/signup_img.png';
 import 'bootstrap/dist/css/bootstrap.css';
-import backendServer from '../../webConfig';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { customerSignUp } from '../../store/actions/signUpActions';
 import '../../App.css';
+import { Redirect } from 'react-router-dom';
 
-class UserSignup extends Component {
+class CustomerSignup extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      firstname: '',
-      lastname: '',
-      email_id: '',
-      password: '',
-    };
+    this.state = {};
     this.SubmitUserDetails = this.SubmitUserDetails.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
   }
@@ -26,7 +23,6 @@ class UserSignup extends Component {
   }
 
   SubmitUserDetails(e) {
-    const headers = new Headers();
     e.preventDefault();
     const userData = {
       fname: this.state.firstname,
@@ -35,24 +31,32 @@ class UserSignup extends Component {
       password: this.state.password,
     };
 
-    axios.defaults.withCredentials = true;
-    axios
-      .post(`${backendServer}/yelp/signup/newuser`, userData)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.props.customerSignUp(userData);
+    this.setState({
+      signupFlag: 1,
+    });
   }
 
   render() {
+    let redirectVar = null;
+    let message = '';
+    if (localStorage.getItem('cust_id')) {
+      redirectVar = <Redirect to='/' />;
+    } else if (this.props.user === 'Inserted' && this.state.signupFlag) {
+      alert('You have registered successfully');
+      redirectVar = <Redirect to='/login' />;
+    } else if (this.props.user === 'UserExists' && this.state.signupFlag) {
+      message = 'Email id is already registered';
+    }
+
     return (
-      <>
+      <React.Fragment>
+        {redirectVar}
+
         <NavigationSignUp></NavigationSignUp>
         <div className='container'>
           <div className='row' style={{ padding: '1.4rem' }}>
-            <div className='col-md-6'>
+            <div className='col-md-6 pl-5 pr-5'>
               <div className='panel formtext'>
                 <a href='ownersignup'>
                   Are you a restaurant owner? Sign Up here
@@ -127,6 +131,7 @@ class UserSignup extends Component {
                     </a>
                   </span>
                 </p>
+                {message && <div className='alert alert-danger'>{message}</div>}
               </form>
             </div>
             <div className='col-md-6 signupimg'>
@@ -138,9 +143,18 @@ class UserSignup extends Component {
             </div>
           </div>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 }
 
-export default UserSignup;
+CustomerSignup.propTypes = {
+  customerSignUp: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.signup.user,
+});
+
+export default connect(mapStateToProps, { customerSignUp })(CustomerSignup);

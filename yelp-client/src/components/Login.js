@@ -43,6 +43,12 @@ class Login extends Component {
       localStorage.setItem('user_id', this.props.user.cust_id);
       localStorage.setItem('last_name', this.props.user.lastname);
       redirectVar = <Redirect to='/' />;
+    } else if (this.props.user && this.props.user.rest_id) {
+      localStorage.setItem('email_id', this.props.user.email);
+      localStorage.setItem('name', this.props.user.name);
+      localStorage.setItem('rest_id', this.props.user.rest_id);
+      localStorage.setItem('zipcode', this.props.user.zipcode);
+      redirectVar = <Redirect to='/res/restaurant_info' />;
     } else if (
       this.props.user === 'Username/password is wrong' &&
       this.state.authFlag
@@ -63,7 +69,7 @@ class Login extends Component {
                 <p>
                   New to Yelp?{' '}
                   <span>
-                    <a href='/signup' className='hyperlink'>
+                    <a href='/customersignup' className='hyperlink'>
                       Sign up
                     </a>
                   </span>
@@ -92,9 +98,9 @@ class Login extends Component {
                       required
                     />
                   </div>
-                  <div className='forgot'>
+                  {/* <div className='forgot'>
                     <a href='#'>Forgot password?</a>
-                  </div>
+                  </div> */}
                   <div className='form-group formControl'>
                     <button
                       type='submit'
@@ -103,7 +109,7 @@ class Login extends Component {
                     </button>
                   </div>
                   {message && (
-                    <div className='alert alert-danger'>{message}</div>
+                    <div className='alert alert-danger errormsg'>{message}</div>
                   )}
                 </form>
               </div>

@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.min';
-import { card, CardImg, Jumbotron } from 'react-bootstrap';
+import { Card, CardImg, Jumbotron } from 'react-bootstrap';
 import profilepic from '../../images/profile-icon.png';
 import '../../App.css';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCustomerDetails } from '../../store/actions/customerProfileAction';
 
 class UserProfileJumbo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profileImage: '',
-      uploadedFile: '',
-      fileText: '',
+      // profileImage: '',
+      // uploadedFile: '',
+      // fileText: '',
     };
     this.changeProfileImage = this.changeProfileImage.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.getCustomerDetails();
   }
 
   changeProfileImage = (e) => {
@@ -28,16 +35,18 @@ class UserProfileJumbo extends Component {
     return (
       <React.Fragment>
         <Jumbotron>
-          <div class='row'>
+          <div className='row'>
             <div
-              class=' col-md-2 card profilePic'
+              className=' col-md-2 card profilePic'
               style={{ position: 'absolute' }}>
-              <label for='profileImage'>
+              <label htmlFor='profileImage'>
                 <a
                   href='#'
-                  class='btn btn-secondary btn-sm btn-rounded'
+                  className='btn btn-secondary btn-sm btn-rounded'
                   style={{ marginLeft: '10px', marginTop: '10px' }}>
-                  <i class='fas fa-camera' style={{ marginRight: '10px' }}></i>
+                  <i
+                    className='fas fa-camera'
+                    style={{ marginRight: '10px' }}></i>
                   Add a photo
                 </a>
               </label>
@@ -48,33 +57,33 @@ class UserProfileJumbo extends Component {
                 style={{ display: 'none' }}
                 value=''
                 onChange={this.changeProfileImage}></input>
-              <card>
-                <CardImg
-                  variant='top'
-                  src={profilepic}
-                  className='profileImg'
-                />
-              </card>
+              <CardImg variant='top' src={profilepic} className='profileImg' />
             </div>
-            <div class='col-md-3'></div>
-            <div class='col-md-4 profileName'>
-              <h1>Poojitha</h1>
-              <h4>San Jose,CA</h4>
+            <div className='col-md-3'></div>
+            <div className='col-md-5 profileName'>
+              <h1 className='h1 display-5 ml-5'>
+                {this.props.user.firstname} {this.props.user.lastname}
+              </h1>
+              <h5 class='ml-5'>{this.props.user.city}</h5>
+              <br />
+              {this.props.user.headline && (
+                <h6 class='ml-5'>"{this.props.user.headline}"</h6>
+              )}
             </div>
-            <div class='col-md-3 vertical-divider'>
-              <ul class='list-unstyled'>
+            <div className='col-md-3 vertical-divider'>
+              <ul className='list-unstyled'>
                 <li>
                   <a href='#'>
                     <span>
-                      <i class='fas fa-camera'></i>{' '}
+                      <i className='fas fa-camera'></i>{' '}
                     </span>
                     Add Profile Photo
                   </a>
                 </li>
                 <li>
-                  <a href='#'>
+                  <a href='/user/basic_details'>
                     <span>
-                      <i class='fas fa-id-card'></i>{' '}
+                      <i className='fas fa-id-card'></i>{' '}
                     </span>
                     Update your profile
                   </a>
@@ -88,4 +97,15 @@ class UserProfileJumbo extends Component {
   }
 }
 
-export default UserProfileJumbo;
+UserProfileJumbo.propTypes = {
+  getCustomerDetails: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.customerProfile.user,
+});
+
+export default connect(mapStateToProps, { getCustomerDetails })(
+  UserProfileJumbo,
+);

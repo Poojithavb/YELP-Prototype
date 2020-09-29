@@ -1,4 +1,4 @@
-import { CUST_LOGIN } from './types';
+import { CUST_LOGIN, LOGOUT } from './types';
 import connectionServer from '../../webConfig';
 import axios from 'axios';
 
@@ -21,3 +21,5 @@ export const custLogin = (loginData) => (dispatch) => {
       }
     });
 };
+
+export const logout = () => (dispatch) => dispatch({ type: LOGOUT });

@@ -1,20 +1,50 @@
 import React, { Component } from 'react';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
+import { Dropdown } from 'react-bootstrap';
 import '../App.css';
+import { connect } from 'react-redux';
+import { logout } from '../store/actions/loginAction';
 
 class NavLandingPage extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    window.localStorage.clear();
+    this.props.logout();
+    cookie.remove('cookie');
+    window.location.href = '/';
+  }
+
   render() {
     let login = null;
     if (cookie.load('cookie')) {
       login = (
-        <a className='nav-link' href='/user/user_details'>
-          <span style={{ float: 'right' }}>
+        <Dropdown style={{ float: 'right' }}>
+          <Dropdown.Toggle variant='secondary' id='dropdown-basic'>
             <i className='far fa-user'></i>
-            <i class='fas fa-caret-square-down'></i>
-          </span>
-        </a>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item href='/user/user_details'>
+              <span className='mr-2'>
+                <i className='far fa-user'></i>
+              </span>
+              About Me
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={this.handleLogout}>
+              <span className='mr-2'>
+                <i className='fas fa-sign-out-alt'></i>
+              </span>
+              Logout
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       );
     } else {
       login = (
@@ -26,7 +56,7 @@ class NavLandingPage extends Component {
               float: 'right',
               marginLeft: '10%',
             }}
-            href='/signup'>
+            href='/customersignup'>
             Sign Up
           </a>
           <a
@@ -68,4 +98,4 @@ class NavLandingPage extends Component {
   }
 }
 
-export default NavLandingPage;
+export default connect(null, { logout })(NavLandingPage);

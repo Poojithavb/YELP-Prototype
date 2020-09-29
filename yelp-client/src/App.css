@@ -100,7 +100,7 @@ div a {
   text-align: center;
 }
 
-.alert-danger {
+.errormsg {
   margin-left: 10%;
   width: 27rem;
 }
@@ -114,7 +114,7 @@ div a {
 }
 
 .banner {
-  background-color: red;
+  background-color: #d0312d;
 }
 
 .banner-img {
@@ -139,7 +139,7 @@ div a {
 }
 
 Jumbotron {
-  background-color: #ececec;
+  color: red;
 }
 
 .profileName {
@@ -149,8 +149,8 @@ Jumbotron {
 }
 
 .profilePic {
-  width: 35%;
-  height: 38%;
+  width: 45%;
+  height: 45%;
   margin-left: 9%;
   background-color: #ececec;
 }
@@ -176,4 +176,30 @@ Jumbotron {
   text-align: left;
   height: 100%;
   border-left: 1px solid #e6e6e6;
+}
+
+.res-img {
+  height: 65%;
+  width: 100%;
+}
+
+.img-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.img-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin-top: 65%;
+  padding-left: 50%;
+}
+
+.img-overlay:before {
+  content: ' ';
+  display: block;
 }

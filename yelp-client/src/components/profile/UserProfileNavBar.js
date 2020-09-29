@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
+import cookie from 'react-cookies';
 import 'bootstrap/dist/css/bootstrap.css';
 import logo from '../../images/yelp-logo.png';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../../App.css';
+import { Dropdown } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { logout } from '../../store/actions/loginAction';
 
 class UserProfileNavBar extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    window.localStorage.clear();
+    cookie.load('cookie');
+    cookie.remove('cookie', { path: '/' });
+    this.props.logout();
+    window.location.href = '/';
+  }
+
   render() {
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
@@ -53,9 +70,26 @@ class UserProfileNavBar extends Component {
               </a>
             </li>
             <li className='nav-item'>
-              <a className='nav-link' href='#'>
-                <i className='far fa-user'></i>
-              </a>
+              <Dropdown style={{ float: 'right' }}>
+                <Dropdown.Toggle variant='secondary' id='dropdown-basic'>
+                  <i className='far fa-user'></i>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href='/user/user_details'>
+                    <span className='mr-2'>
+                      <i className='far fa-user'></i>
+                    </span>
+                    About Me
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={this.handleLogout}>
+                    <span className='mr-2'>
+                      <i className='fas fa-sign-out-alt'></i>
+                    </span>
+                    Logout
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </li>
           </ul>
         </div>
@@ -64,4 +98,4 @@ class UserProfileNavBar extends Component {
   }
 }
 
-export default UserProfileNavBar;
+export default connect(null, { logout })(UserProfileNavBar);

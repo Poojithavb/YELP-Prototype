@@ -20,23 +20,16 @@ const StyledLink = styled(NavLink)`
 `;
 
 class NavList extends Component {
-  state = {};
   render() {
+    const name = localStorage.getItem('first_name');
     return (
-      <div class='col-md-8' style={{ marginLeft: '10%' }}>
-        <h5>Poojitha's Profile</h5>
+      <div className='col-md-8' style={{ marginLeft: '10%' }}>
+        <h5>{name}'s Profile</h5>
         <ListGroup
           variant='flush'
           style={{ marginBottom: '20%', padding: '0%' }}>
           <ListGroup.Item action variant='light'>
-            <StyledLink
-              to='/user/user_details'
-              // activeStyle={{
-              //   backgroundColor: '#D3D3D3',
-              // }}
-            >
-              Profile Overview
-            </StyledLink>
+            <StyledLink to='/user/user_details'>Profile Overview</StyledLink>
           </ListGroup.Item>
           <ListGroup.Item action variant='light'>
             <StyledLink to='/user/basic_details'> Basic Details</StyledLink>
