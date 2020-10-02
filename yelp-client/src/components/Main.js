@@ -10,8 +10,10 @@ import AboutSection from './profile/AboutSection';
 import ContactInfo from './profile/ContactInfo';
 import RestaurantInfo from './Restaurant/Show';
 import UpdateProfile from './Restaurant/UpdateProfile';
-import AddEditDish from './Restaurant/AddEditDish';
+import AddDish from './Restaurant/AddDish';
+import EditDish from './Restaurant/EditDish';
 import Menu from './Restaurant/Menu';
+import ViewEvents from './Events/ViewEvents';
 
 function Main() {
   return (
@@ -30,12 +32,18 @@ function Main() {
         path='/res/restaurant_info/update_profile'
         component={UpdateProfile}
       />
+      <Route exact path='/res/restaurant_info/adddish' component={AddDish} />
       <Route
         exact
-        path='/res/restaurant_info/add_edit_dish'
-        component={AddEditDish}
+        path='/res/restaurant_info/editdish/:item_id'
+        component={EditDish}
       />
       <Route exact path='/res/restaurant_info/menu' component={Menu} />
+      <Route
+        exact
+        path='/res/restaurant_info/:resid/events'
+        component={ViewEvents}
+      />
     </div>
   );
 }

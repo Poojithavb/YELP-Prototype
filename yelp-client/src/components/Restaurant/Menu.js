@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from '../profile/UserProfileNavBar';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import connectionServer from '../../webConfig';
 
 import axios from 'axios';
@@ -31,49 +32,73 @@ class Menu extends Component {
 
   render() {
     let resName = localStorage.getItem('name');
-    let imgsrc = null;
+
     let renderOutput = [];
     if (this.state && this.state.data && this.state.data.length > 0) {
       for (var i = 0; i < this.state.data.length; i++) {
+        let imgsrc = null;
+        let itemid = this.state.data[i].item_id;
         if (this.state.data[i].item_image) {
           imgsrc = `${connectionServer}/yelp/images/item/${this.state.data[i].item_image}`;
         }
         renderOutput.push(
-          <Card className='pl-5 pr-5'>
-            <Card.Img
-              variant='top'
-              src={imgsrc}
-              style={{ width: '40%', height: '15vw' }}
-            />
+          <Card className='pl-5 pr-5 pt-3'>
+            {imgsrc && (
+              <Card.Img
+                variant='left'
+                src={imgsrc}
+                style={{ width: '40%', height: '15vw' }}
+              />
+            )}
+
             <Card.Title
               className='card-img-top img-fluid'
-              style={{ color: 'red' }}>
+              style={{ color: 'red' }}
+              variant='right'>
               {this.state.data[i].dishname}
+
+              <Link
+                to={{
+                  pathname: `/res/restaurant_info/editdish/${this.state.data[i].item_id}`,
+                }}>
+                <Button variant='link' style={{ float: 'right' }}>
+                  Edit
+                </Button>
+                &nbsp;
+              </Link>
             </Card.Title>
             <Card.Body className='pl-0'>
-              <label>
-                <strong>Category - </strong>
-                {this.state.data[i].itemCategory}
-              </label>
+              {this.state.data[i].itemCategory && (
+                <label>
+                  <strong>Category - </strong>
+                  {this.state.data[i].itemCategory}
+                </label>
+              )}
               <br />
-              <label>
-                <strong>Ingredients - </strong>
-                {this.state.data[i].ingredients}
-              </label>
+              {this.state.data[i].ingredients && (
+                <label>
+                  <strong>Ingredients - </strong>
+                  {this.state.data[i].ingredients}
+                </label>
+              )}
               <br />
-              <label>
-                <strong>Description - </strong>
-                {this.state.data[i].description}
-              </label>
+              {this.state.data[i].description && (
+                <label>
+                  <strong>Description - </strong>
+                  {this.state.data[i].description}
+                </label>
+              )}
               <br />
               <Card.Footer style={{ float: 'right' }}>
                 <label>Price: </label> ${this.state.data[i].price}
+                <br />
               </Card.Footer>
             </Card.Body>
           </Card>,
         );
       }
     }
+
     return (
       <React.Fragment>
         <NavBar />
@@ -81,6 +106,9 @@ class Menu extends Component {
           <h3>Menu for {resName}</h3>
           <br />
           <div className='col-md-7'>{renderOutput}</div>
+          <button className='btn btn-danger mb-5' style={{ float: 'right' }}>
+            <a href='/res/restaurant_info'>Go Back</a>
+          </button>
         </div>
       </React.Fragment>
     );

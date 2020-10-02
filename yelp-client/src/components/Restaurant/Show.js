@@ -7,6 +7,8 @@ import img4 from '../../images/res1_4.jpg';
 import '../../App.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import { getRestaurantDetails } from '../../store/actions/restaurantProfileAction';
 
 class RestaurantInfo extends Component {
@@ -115,6 +117,20 @@ class RestaurantInfo extends Component {
                   </span>
                   Add Photo
                 </button>
+                <Link
+                  to={{
+                    pathname: `/res/restaurant_info/${localStorage.getItem(
+                      'rest_id',
+                    )}/events`,
+                  }}>
+                  <button className='btn btn-outline-dark ml-2'>
+                    <span className='mr-2'>
+                      <i class='far fa-calendar-check'></i>
+                    </span>
+                    Events
+                  </button>
+                  &nbsp;
+                </Link>
               </p>
             </div>
             <div className='col-md-4'>
@@ -132,7 +148,7 @@ class RestaurantInfo extends Component {
                   {this.props.user.email}
                 </li>
                 <li className='list-group-item'>
-                  <a href='#'>
+                  <a href='/res/restaurant_info/menu'>
                     <span className='mr-2'>
                       <i className='fas fa-utensils'></i>
                     </span>
@@ -148,7 +164,7 @@ class RestaurantInfo extends Component {
                   </a>
                 </li>
                 <li className='list-group-item'>
-                  <a href='/res/restaurant_info/add_edit_dish'>
+                  <a href='/res/restaurant_info/adddish'>
                     <span className='mr-2'>
                       <i className='fas fa-hotdog'></i>
                     </span>
