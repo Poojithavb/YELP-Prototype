@@ -14,6 +14,7 @@ import AddDish from './Restaurant/AddDish';
 import EditDish from './Restaurant/EditDish';
 import Menu from './Restaurant/Menu';
 import ViewEvents from './Events/ViewEvents';
+import CreateEvent from './Events/CreateEvent';
 
 function Main() {
   return (
@@ -43,6 +44,11 @@ function Main() {
         exact
         path='/res/restaurant_info/:resid/events'
         component={ViewEvents}
+      />
+      <Route
+        exact
+        path='/res/restaurant_info/:resid/createevent'
+        component={CreateEvent}
       />
     </div>
   );
