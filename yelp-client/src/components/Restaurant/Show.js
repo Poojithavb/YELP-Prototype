@@ -8,7 +8,6 @@ import '../../App.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 import { getRestaurantDetails } from '../../store/actions/restaurantProfileAction';
 
 class RestaurantInfo extends Component {
@@ -129,7 +128,6 @@ class RestaurantInfo extends Component {
                     </span>
                     Events
                   </button>
-                  &nbsp;
                 </Link>
               </p>
             </div>

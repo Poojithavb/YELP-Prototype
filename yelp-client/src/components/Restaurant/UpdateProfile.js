@@ -63,7 +63,7 @@ class UpdateProfile extends Component {
       <React.Fragment>
         {redirectVar}
         <NavBar />
-        <div className='container'>
+        <div className='container pb-5'>
           <div className='row'>
             <div className='col-md-5 ml-5 mb-5 mt-3'>
               <h4 style={{ color: '#d0312d', float: 'left' }}>

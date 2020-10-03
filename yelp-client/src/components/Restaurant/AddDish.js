@@ -92,7 +92,6 @@ class AddDish extends Component {
   }
 
   render() {
-    console.log(this.props.match.params);
     let redirectVar = null;
     if (this.state.message === 'Inserted') {
       redirectVar = <Redirect to='/res/restaurant_info' />;
@@ -203,7 +202,7 @@ class AddDish extends Component {
                     Save Changes
                   </Button>
                 </ButtonGroup>
-                <a href='/res/restaurant_info' style={{ marginLeft: '15px' }}>
+                <a href='/res/restaurant_info' className='ml-3'>
                   Cancel
                 </a>
               </Form>

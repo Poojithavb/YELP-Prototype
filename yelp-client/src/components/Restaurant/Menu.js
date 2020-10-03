@@ -43,14 +43,6 @@ class Menu extends Component {
         }
         renderOutput.push(
           <Card className='pl-5 pr-5 pt-3'>
-            {imgsrc && (
-              <Card.Img
-                variant='left'
-                src={imgsrc}
-                style={{ width: '40%', height: '15vw' }}
-              />
-            )}
-
             <Card.Title
               className='card-img-top img-fluid'
               style={{ color: 'red' }}
@@ -67,6 +59,13 @@ class Menu extends Component {
                 &nbsp;
               </Link>
             </Card.Title>
+            {imgsrc && (
+              <Card.Img
+                variant='left'
+                src={imgsrc}
+                style={{ width: '40%', height: '15vw' }}
+              />
+            )}
             <Card.Body className='pl-0'>
               {this.state.data[i].itemCategory && (
                 <label>
@@ -106,9 +105,15 @@ class Menu extends Component {
           <h3>Menu for {resName}</h3>
           <br />
           <div className='col-md-7'>{renderOutput}</div>
-          <button className='btn btn-danger mb-5' style={{ float: 'right' }}>
-            <a href='/res/restaurant_info'>Go Back</a>
-          </button>
+
+          <Link
+            to={{
+              pathname: `/res/restaurant_info`,
+            }}>
+            <a className='btn btn-danger mb-5' style={{ float: 'right' }}>
+              Cancel
+            </a>
+          </Link>
         </div>
       </React.Fragment>
     );

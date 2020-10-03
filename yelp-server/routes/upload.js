@@ -14,13 +14,32 @@ const itemstorage = multer.diskStorage({
 
 const upload = multer({ storage: itemstorage });
 
-router.post('/item', upload.single('image'), (req, res, next) => {
+router.post('/item', upload.single('image'), (req, res) => {
   try {
     return res.status(201).json({
       message: 'File uploded successfully',
     });
   } catch (error) {
-    console.error(error);
+    console.log(error);
+  }
+});
+
+const eventstorage = multer.diskStorage({
+  destination: path.join(__dirname, '..') + '/public/uploads/events',
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const uploadeventimage = multer({ storage: eventstorage });
+
+router.post('/eventimage', uploadeventimage.single('image'), (req, res) => {
+  try {
+    return res.status(201).json({
+      message: 'File uploded successfully',
+    });
+  } catch (error) {
+    console.log(error);
   }
 });
 

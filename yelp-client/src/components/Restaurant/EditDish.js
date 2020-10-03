@@ -246,7 +246,7 @@ class AddEditDish extends Component {
                     Update
                   </Button>
                 </ButtonGroup>
-                <a href='/res/restaurant_info' style={{ marginLeft: '15px' }}>
+                <a href='/res/restaurant_info/menu' className='ml-3'>
                   Cancel
                 </a>
               </Form>

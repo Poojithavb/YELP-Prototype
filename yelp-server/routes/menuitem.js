@@ -1,5 +1,4 @@
 const express = require('express');
-const passwordHash = require('password-hash');
 const pool = require('../pool');
 
 const router = express.Router();
