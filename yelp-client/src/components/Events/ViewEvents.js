@@ -36,7 +36,7 @@ class ViewEvents extends Component {
           imgsrc = `${connectionServer}/yelp/images/events/${this.state.data[i].filename}`;
         }
         renderOutput.push(
-          <div className='col-md-5 ml-5 mt-5 mb-5'>
+          <div className='col-md-5 ml-5 mt-5 mb-5 '>
             <Card className='pl-5 pr-5 pt-3'>
               <Card.Body className='pl-0'>
                 <Card.Img src={imgsrc} />

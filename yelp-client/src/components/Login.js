@@ -48,7 +48,13 @@ class Login extends Component {
       localStorage.setItem('name', this.props.user.name);
       localStorage.setItem('rest_id', this.props.user.rest_id);
       localStorage.setItem('zipcode', this.props.user.zipcode);
-      redirectVar = <Redirect to='/res/restaurant_info' />;
+      redirectVar = (
+        <Redirect
+          to={{
+            pathname: `/res/${localStorage.getItem('rest_id')}/restaurant_info`,
+          }}
+        />
+      );
     } else if (
       this.props.user === 'Username/password is wrong' &&
       this.state.authFlag

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, ButtonGroup, Button } from 'react-bootstrap';
 import NavBar from '../profile/UserProfileNavBar';
 import connectionServer from '../../webConfig';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Redirect } from 'react-router';
 
@@ -31,7 +32,7 @@ class AddDish extends Component {
   };
 
   handleCheckboxChange(e) {
-    this.setState({ category: e.target.name });
+    this.setState({ category: e.target.value });
   }
 
   onImageChange = (e) => {
@@ -156,26 +157,31 @@ class AddDish extends Component {
                   <Form.Check
                     name='appetizer'
                     label='Appetizer'
+                    value='Appetizer'
                     onChange={this.handleCheckboxChange}
                   />
                   <Form.Check
                     name='salads'
                     label='Salads'
+                    value='Salads'
                     onChange={this.handleCheckboxChange}
                   />
                   <Form.Check
                     name='maincourse'
                     label='Main course'
+                    value='Main Course'
                     onChange={this.handleCheckboxChange}
                   />
                   <Form.Check
                     name='desserts'
                     label='Desserts'
+                    value='Desserts'
                     onChange={this.handleCheckboxChange}
                   />
                   <Form.Check
                     name='beverages'
                     label='Beverages'
+                    value='Beverages'
                     onChange={this.handleCheckboxChange}
                   />
                 </Form.Group>
@@ -202,9 +208,14 @@ class AddDish extends Component {
                     Save Changes
                   </Button>
                 </ButtonGroup>
-                <a href='/res/restaurant_info' className='ml-3'>
-                  Cancel
-                </a>
+                <Link
+                  to={{
+                    pathname: `/res/${localStorage.getItem(
+                      'rest_id',
+                    )}/restaurant_info`,
+                  }}>
+                  <a style={{ marginLeft: '15px' }}>Cancel</a>
+                </Link>
               </Form>
             </div>
           </div>

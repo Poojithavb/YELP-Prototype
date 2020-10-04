@@ -15,6 +15,8 @@ import EditDish from './Restaurant/EditDish';
 import Menu from './Restaurant/Menu';
 import ViewEvents from './Events/ViewEvents';
 import CreateEvent from './Events/CreateEvent';
+import RestaurantList from './Customer/RestaurantList';
+import Review from './Customer/Review';
 
 function Main() {
   return (
@@ -27,7 +29,11 @@ function Main() {
       <Route exact path='/user/basic_details' component={BasicDetails} />
       <Route exact path='/user/about_section' component={AboutSection} />
       <Route exact path='/user/contact_info' component={ContactInfo} />
-      <Route exact path='/res/restaurant_info' component={RestaurantInfo} />
+      <Route
+        exact
+        path='/res/:rest_id/restaurant_info/'
+        component={RestaurantInfo}
+      />
       <Route
         exact
         path='/res/restaurant_info/update_profile'
@@ -50,6 +56,8 @@ function Main() {
         path='/res/restaurant_info/:resid/createevent'
         component={CreateEvent}
       />
+      <Route exact path='/res/restaurant_list/' component={RestaurantList} />
+      <Route exact path='/res/:resid/addreview' component={Review} />
     </div>
   );
 }

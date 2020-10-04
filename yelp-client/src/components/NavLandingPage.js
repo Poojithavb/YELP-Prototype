@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import { Dropdown } from 'react-bootstrap';
 import '../App.css';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { logout } from '../store/actions/loginAction';
 
 class NavLandingPage extends Component {
@@ -84,12 +85,18 @@ class NavLandingPage extends Component {
             <a href='#' style={{ marginLeft: '2%', color: '#fff' }}>
               Write a Review
             </a>
-            <a href='#' className='nav-landing'>
+            <a href='#' className='nav-landing' style={{ color: '#fff' }}>
               Events
             </a>
-            <a href='#' className='nav-landing'>
+            <a href='#' className='nav-landing' style={{ color: '#fff' }}>
               Talk
             </a>
+            <Link
+              to='/res/restaurant_list/'
+              className='nav-landing'
+              style={{ color: '#fff' }}>
+              Restaurant
+            </Link>
           </div>
           <div className='col-md-3'>{login}</div>
         </div>

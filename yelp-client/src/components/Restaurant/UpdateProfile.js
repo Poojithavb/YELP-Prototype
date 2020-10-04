@@ -4,6 +4,7 @@ import NavBar from '../profile/UserProfileNavBar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import {
   getRestaurantDetails,
   updateRestaurantDetails,
@@ -63,7 +64,7 @@ class UpdateProfile extends Component {
       <React.Fragment>
         {redirectVar}
         <NavBar />
-        <div className='container pb-5'>
+        <div className='container'>
           <div className='row'>
             <div className='col-md-5 ml-5 mb-5 mt-3'>
               <h4 style={{ color: '#d0312d', float: 'left' }}>
@@ -192,14 +193,20 @@ class UpdateProfile extends Component {
                     </Col>
                   </Row>
                 </Form.Group>
+
                 <ButtonGroup aria-label='First group'>
                   <Button variant='danger' type='submit'>
                     Save Changes
                   </Button>
                 </ButtonGroup>
-                <a href='/res/restaurant_info' style={{ marginLeft: '15px' }}>
-                  Cancel
-                </a>
+                <Link
+                  to={{
+                    pathname: `/res/${localStorage.getItem(
+                      'rest_id',
+                    )}/restaurant_info`,
+                  }}>
+                  <a style={{ marginLeft: '15px' }}>Cancel</a>
+                </Link>
               </Form>
             </div>
           </div>

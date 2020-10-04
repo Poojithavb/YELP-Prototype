@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, ButtonGroup, Button } from 'react-bootstrap';
 import NavBar from '../profile/UserProfileNavBar';
 import connectionServer from '../../webConfig';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Redirect } from 'react-router';
 
@@ -120,7 +121,6 @@ class AddEditDish extends Component {
   }
 
   render() {
-    console.log(this.props.match.params);
     let redirectVar = null;
     if (this.state.message === 'Updated') {
       redirectVar = <Redirect to='/res/restaurant_info/menu' />;
@@ -246,9 +246,14 @@ class AddEditDish extends Component {
                     Update
                   </Button>
                 </ButtonGroup>
-                <a href='/res/restaurant_info/menu' className='ml-3'>
-                  Cancel
-                </a>
+                <Link
+                  to={{
+                    pathname: `/res/${localStorage.getItem(
+                      'rest_id',
+                    )}/restaurant_info`,
+                  }}>
+                  <a style={{ marginLeft: '15px' }}>Cancel</a>
+                </Link>
               </Form>
             </div>
           </div>

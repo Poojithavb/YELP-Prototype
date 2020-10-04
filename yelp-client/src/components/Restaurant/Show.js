@@ -8,7 +8,12 @@ import '../../App.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getRestaurantDetails } from '../../store/actions/restaurantProfileAction';
+import { Card, Button } from 'react-bootstrap';
+import StarRatings from 'react-star-ratings';
+import {
+  getRestaurantDetails,
+  getReviews,
+} from '../../store/actions/restaurantProfileAction';
 
 class RestaurantInfo extends Component {
   constructor(props) {
@@ -17,23 +22,55 @@ class RestaurantInfo extends Component {
   }
 
   componentWillMount() {
+    localStorage.setItem('rest_id', this.props.match.params.rest_id);
     this.props.getRestaurantDetails();
+    this.props.getReviews();
   }
 
   render() {
+    let renderOutput = [];
+    let renderStars = [];
+
+    if (this.props && this.props.reviews && this.props.reviews.length > 0) {
+      for (var i = 0; i < this.props.reviews.length; i++) {
+        renderOutput.push(
+          <Card>
+            <Card.Header>
+              <StarRatings
+                rating={this.props.reviews[i].rating}
+                starDimension='18px'
+                starSpacing='1px'
+                starRatedColor='red'
+              />
+              <span style={{ float: 'right' }}>
+                {this.props.reviews[i].date}
+              </span>
+            </Card.Header>
+            <Card.Body>
+              <p>{this.props.reviews[i].review}</p>
+              <footer className='blockquote-footer'>
+                {this.props.reviews[i].firstname} {}
+                {this.props.reviews[i].lastname}
+              </footer>
+            </Card.Body>
+          </Card>,
+        );
+      }
+    }
     return (
       <React.Fragment>
         <NavBar />
-        <div className='container pt-5' style={{ height: '320px' }}>
+        <div className='container pt-5' style={{ height: '470px' }}>
           <div className='row'>
-            <div className='col-md-3 col-sm-6 col-xs-12'>
+            <div className='col-md-12'>
               <img
                 src={img1}
                 className='rounded float-left  res-img'
                 alt='...'
+                style={{ width: '100%', height: '50%' }}
               />
             </div>
-            <div className='col-md-3 col-sm-6 col-xs-12'>
+            {/* <div className='col-md-3 col-sm-6 col-xs-12'>
               <img
                 src={img2}
                 className='rounded float-left res-img'
@@ -52,11 +89,11 @@ class RestaurantInfo extends Component {
                 src={img4}
                 className='rounded float-right res-img'
                 alt='...'
-              />
-              <div className='img-overlay'>
+              /> */}
+            {/* <div className='img-overlay'>
                 <button className='button btn-light btn-lg'>See All</button>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </div>
         </div>
         <div className='container'>
@@ -101,15 +138,25 @@ class RestaurantInfo extends Component {
                 </span>
               </p>
               <p>
-                <button className='btn  btn-danger'>
-                  <span className='mr-2'>
-                    <i
-                      className='fa fa-star'
-                      aria-hidden='true'
-                      style={{ color: 'white' }}></i>
-                  </span>
-                  Write a Review
-                </button>
+                <Link
+                  to={{
+                    pathname: `/res/${localStorage.getItem(
+                      'rest_id',
+                    )}/addreview`,
+                    state: {
+                      name: this.props.user.name,
+                    },
+                  }}>
+                  <button className='btn btn-danger'>
+                    <span className='mr-2'>
+                      <i
+                        className='fa fa-star'
+                        aria-hidden='true'
+                        style={{ color: 'white' }}></i>
+                    </span>
+                    Write a Review
+                  </button>
+                </Link>
                 <button className='btn btn-outline-dark ml-2'>
                   <span className='mr-2'>
                     <i className='fas fa-camera' aria-hidden='true'></i>
@@ -124,7 +171,7 @@ class RestaurantInfo extends Component {
                   }}>
                   <button className='btn btn-outline-dark ml-2'>
                     <span className='mr-2'>
-                      <i class='far fa-calendar-check'></i>
+                      <i className='far fa-calendar-check'></i>
                     </span>
                     Events
                   </button>
@@ -141,7 +188,7 @@ class RestaurantInfo extends Component {
                 </li>
                 <li className='list-group-item'>
                   <span className='mr-2'>
-                    <i class='fas fa-envelope-open-text'></i>
+                    <i className='fas fa-envelope-open-text'></i>
                   </span>
                   {this.props.user.email}
                 </li>
@@ -153,30 +200,35 @@ class RestaurantInfo extends Component {
                     Full Menu
                   </a>
                 </li>
-                <li className='list-group-item'>
-                  <a href='/res/restaurant_info/update_profile'>
-                    <span className='mr-2'>
-                      <i className='far fa-id-card'></i>
-                    </span>
-                    Update Profile
-                  </a>
-                </li>
-                <li className='list-group-item'>
-                  <a href='/res/restaurant_info/adddish'>
-                    <span className='mr-2'>
-                      <i className='fas fa-hotdog'></i>
-                    </span>
-                    Add/Edit Dishes
-                  </a>
-                </li>
+                {localStorage.getItem('name') && (
+                  <li className='list-group-item'>
+                    <a href='/res/restaurant_info/update_profile'>
+                      <span className='mr-2'>
+                        <i className='far fa-id-card'></i>
+                      </span>
+                      Update Profile
+                    </a>
+                  </li>
+                )}
+                {localStorage.getItem('name') && (
+                  <li className='list-group-item'>
+                    <a href='/res/restaurant_info/adddish'>
+                      <span className='mr-2'>
+                        <i className='fas fa-hotdog'></i>
+                      </span>
+                      Add/Edit Dishes
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
         </div>
         <div className='container'>
-          <div className='col-md-7 pl-0'>
+          <div className='col-md-6 pl-0 mb-5'>
             <hr />
             <h5 className='display-7'>Review Highlights</h5>
+            <div>{renderOutput}</div>
           </div>
         </div>
       </React.Fragment>
@@ -186,13 +238,16 @@ class RestaurantInfo extends Component {
 
 RestaurantInfo.propTypes = {
   getRestaurantDetails: PropTypes.func.isRequired,
+  getReviews: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
+  reviews: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.restaurantProfile.user,
+  reviews: state.restaurantProfile.reviews,
 });
 
-export default connect(mapStateToProps, { getRestaurantDetails })(
+export default connect(mapStateToProps, { getRestaurantDetails, getReviews })(
   RestaurantInfo,
 );

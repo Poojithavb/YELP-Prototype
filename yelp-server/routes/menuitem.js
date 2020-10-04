@@ -20,7 +20,6 @@ router.post('/add', (req, res) => {
 router.post('/edit/:item_id', (req, res) => {
   const sql = `CALL Updatemenuitem(${req.params.item_id},'${req.body.name}','${req.body.ingredients}',${req.body.price},'${req.body.description}','${req.body.category}','${req.body.filename}',${req.body.rest_id})`;
   pool.query(sql, (err, result) => {
-    console.log(sql);
     if (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain' });
       res.end('Some error has occured');

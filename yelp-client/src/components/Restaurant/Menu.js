@@ -108,7 +108,9 @@ class Menu extends Component {
 
           <Link
             to={{
-              pathname: `/res/restaurant_info`,
+              pathname: `/res/${localStorage.getItem(
+                'rest_id',
+              )}/restaurant_info`,
             }}>
             <a className='btn btn-danger mb-5' style={{ float: 'right' }}>
               Cancel
