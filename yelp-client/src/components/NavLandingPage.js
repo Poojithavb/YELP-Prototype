@@ -31,12 +31,22 @@ class NavLandingPage extends Component {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item href='/user/user_details'>
-              <span className='mr-2'>
-                <i className='far fa-user'></i>
-              </span>
-              About Me
-            </Dropdown.Item>
+            {localStorage.getItem('first_name') && (
+              <Dropdown.Item>
+                <Link
+                  className='nav-button'
+                  to={{
+                    pathname: `/user/${localStorage.getItem(
+                      'user_id',
+                    )}/user_details`,
+                  }}>
+                  <span className='mr-2'>
+                    <i className='far fa-user'></i>
+                  </span>
+                  About Me
+                </Link>
+              </Dropdown.Item>
+            )}
             <Dropdown.Divider />
             <Dropdown.Item onClick={this.handleLogout}>
               <span className='mr-2'>
@@ -82,14 +92,11 @@ class NavLandingPage extends Component {
       <div className='container'>
         <div className='row' style={{ paddingTop: '3%' }}>
           <div className='col-md-9'>
-            <a href='#' style={{ marginLeft: '2%', color: '#fff' }}>
-              Write a Review
-            </a>
-            <a href='#' className='nav-landing' style={{ color: '#fff' }}>
+            <a
+              href='/res/events'
+              className='nav-landing'
+              style={{ marginLeft: '2%', color: '#fff' }}>
               Events
-            </a>
-            <a href='#' className='nav-landing' style={{ color: '#fff' }}>
-              Talk
             </a>
             <Link
               to='/res/restaurant_list/'

@@ -58,7 +58,13 @@ class UpdateProfile extends Component {
         localStorage.setItem('zipcode', this.state.zipcode);
       }
       alert('Updated successfully');
-      redirectVar = <Redirect to='/res/restaurant_info' />;
+      redirectVar = (
+        <Redirect
+          to={{
+            pathname: `/res/${localStorage.getItem('rest_id')}/restaurant_info`,
+          }}
+        />
+      );
     }
     return (
       <React.Fragment>

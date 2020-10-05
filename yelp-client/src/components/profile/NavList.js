@@ -24,25 +24,36 @@ class NavList extends Component {
     const name = localStorage.getItem('first_name');
     return (
       <div className='col-md-8' style={{ marginLeft: '10%' }}>
-        <h5>{name}'s Profile</h5>
-        <ListGroup
-          variant='flush'
-          style={{ marginBottom: '20%', padding: '0%' }}>
-          <ListGroup.Item action variant='light'>
-            <StyledLink to='/user/user_details'>Profile Overview</StyledLink>
-          </ListGroup.Item>
-          <ListGroup.Item action variant='light'>
-            <StyledLink to='/user/basic_details'> Basic Details</StyledLink>
-          </ListGroup.Item>
-          <ListGroup.Item action variant='light'>
-            <StyledLink to='/user/about_section'>About Me</StyledLink>
-          </ListGroup.Item>
-          <ListGroup.Item action variant='light'>
-            <StyledLink to='/user/contact_info' activeClassName='active'>
-              Contact Information
-            </StyledLink>
-          </ListGroup.Item>
-        </ListGroup>
+        {name && (
+          <div>
+            <h5>{name}'s Profile</h5>
+            <ListGroup
+              variant='flush'
+              style={{ marginBottom: '20%', padding: '0%' }}>
+              <ListGroup.Item action variant='light'>
+                <StyledLink
+                  to={{
+                    pathname: `/user/${localStorage.getItem(
+                      'user_id',
+                    )}/user_details`,
+                  }}>
+                  Profile Overview
+                </StyledLink>
+              </ListGroup.Item>
+              <ListGroup.Item action variant='light'>
+                <StyledLink to='/user/basic_details'> Basic Details</StyledLink>
+              </ListGroup.Item>
+              <ListGroup.Item action variant='light'>
+                <StyledLink to='/user/about_section'>About Me</StyledLink>
+              </ListGroup.Item>
+              <ListGroup.Item action variant='light'>
+                <StyledLink to='/user/contact_info' activeClassName='active'>
+                  Contact Information
+                </StyledLink>
+              </ListGroup.Item>
+            </ListGroup>
+          </div>
+        )}
       </div>
     );
   }

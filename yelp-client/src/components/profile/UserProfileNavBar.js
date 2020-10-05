@@ -6,6 +6,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../../App.css';
 import { Dropdown } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { logout } from '../../store/actions/loginAction';
 
 class UserProfileNavBar extends Component {
@@ -64,10 +65,15 @@ class UserProfileNavBar extends Component {
         </div>
         <div>
           <ul className='navbar-nav mr-auto'>
-            <li className='nav-item active'>
-              <a className='nav-link' href='#'>
-                Write a Review <span className='sr-only'>(current)</span>
+            <li className='nav-item active mr-2 btn'>
+              <a href='/res/events' className='nav-button'>
+                Events
               </a>
+            </li>
+            <li className='nav-item active mr-2 btn'>
+              <Link to='/res/restaurant_list/' className='nav-button'>
+                Restaurant
+              </Link>
             </li>
             <li className='nav-item'>
               <Dropdown style={{ float: 'right' }}>
@@ -75,12 +81,21 @@ class UserProfileNavBar extends Component {
                   <i className='far fa-user'></i>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href='/user/user_details'>
-                    <span className='mr-2'>
-                      <i className='far fa-user'></i>
-                    </span>
-                    About Me
-                  </Dropdown.Item>
+                  {localStorage.getItem('first_name') && (
+                    <Dropdown.Item>
+                      <Link
+                        to={{
+                          pathname: `/user/${localStorage.getItem(
+                            'user_id',
+                          )}/user_details`,
+                        }}>
+                        <span className='mr-2'>
+                          <i className='far fa-user'></i>
+                        </span>
+                        About Me
+                      </Link>
+                    </Dropdown.Item>
+                  )}
                   <Dropdown.Divider />
                   <Dropdown.Item onClick={this.handleLogout}>
                     <span className='mr-2'>

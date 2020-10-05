@@ -70,26 +70,28 @@ class UserProfileJumbo extends Component {
                 <h6 class='ml-5'>"{this.props.user.headline}"</h6>
               )}
             </div>
-            <div className='col-md-3 vertical-divider'>
-              <ul className='list-unstyled'>
-                <li>
-                  <a href='#'>
-                    <span>
-                      <i className='fas fa-camera'></i>{' '}
-                    </span>
-                    Add Profile Photo
-                  </a>
-                </li>
-                <li>
-                  <a href='/user/basic_details'>
-                    <span>
-                      <i className='fas fa-id-card'></i>{' '}
-                    </span>
-                    Update your profile
-                  </a>
-                </li>
-              </ul>
-            </div>
+            {localStorage.getItem('first_name') && (
+              <div className='col-md-3 vertical-divider'>
+                <ul className='list-unstyled'>
+                  <li>
+                    <a href='#'>
+                      <span>
+                        <i className='fas fa-camera'></i>{' '}
+                      </span>
+                      Add Profile Photo
+                    </a>
+                  </li>
+                  <li>
+                    <a href='/user/basic_details'>
+                      <span>
+                        <i className='fas fa-id-card'></i>{' '}
+                      </span>
+                      Update your profile
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </Jumbotron>
       </React.Fragment>

@@ -1,14 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import NavBar from '../profile/UserProfileNavBar';
 import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import connectionServer from '../../webConfig';
 import axios from 'axios';
+import Modal from 'react-modal';
 
 class ViewEvents extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showModal: false,
+      event_id: null,
+    };
+
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
   componentWillMount() {
@@ -27,7 +34,43 @@ class ViewEvents extends Component {
       });
   }
 
+  handleOpenModal(arg) {
+    console.log(arg);
+    this.setState({ showModal: true });
+    axios
+      .get(
+        `${connectionServer}/yelp/events/${arg}/registeredpeople
+    `,
+      )
+      .then((response) =>
+        this.setState({
+          regPeople: response.data,
+        }),
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  handleCloseModal() {
+    this.setState({ showModal: false });
+  }
+
   render() {
+    let renderPeople = [];
+    if (this.state && this.state.regPeople && this.state.regPeople.length > 0) {
+      for (var i = 0; i < this.state.regPeople.length; i++) {
+        localStorage.setItem('user_id', this.state.regPeople[i].cust_id);
+        renderPeople.push(
+          <Link
+            to={{
+              pathname: `/user/${localStorage.getItem('user_id')}/user_details`,
+            }}>
+            {this.state.regPeople[i].first_name}
+          </Link>,
+        );
+      }
+    }
     let renderOutput = [];
     if (this.state && this.state.data && this.state.data.length > 0) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -35,6 +78,7 @@ class ViewEvents extends Component {
         if (this.state.data[i].filename) {
           imgsrc = `${connectionServer}/yelp/images/events/${this.state.data[i].filename}`;
         }
+        let event_id = this.state.data[i].event_id;
         renderOutput.push(
           <div className='col-md-5 ml-5 mt-5 mb-5 '>
             <Card className='pl-5 pr-5 pt-3'>
@@ -63,13 +107,27 @@ class ViewEvents extends Component {
                   <label>
                     <strong style={{ color: ' #d0312d' }}>What/Why: </strong>
                     <br />
-                    {/* {this.state.data[i].description} */}
-                    {this.state.data[i].description.substring(0, 155)}
+                    {this.state.data[i].description.substring(0, 100)} ...
                   </label>
                 )}
               </Card.Body>
               <Card.Footer>
-                <Link>Registered People </Link>
+                <div>
+                  <button
+                    onClick={() => this.handleOpenModal(event_id)}
+                    className='btn btn-secondary'>
+                    Registered People
+                  </button>
+                  <Modal
+                    isOpen={this.state.showModal}
+                    contentLabel='Minimal Modal Example'>
+                    {renderPeople}
+                    <br />
+                    <button className='mt-3' onClick={this.handleCloseModal}>
+                      Close Modal
+                    </button>
+                  </Modal>
+                </div>
                 <br />
               </Card.Footer>
             </Card>

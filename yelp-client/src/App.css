@@ -76,6 +76,11 @@ div a {
   color: #fff;
   margin-left: 3%;
 }
+
+.nav-button {
+  text-decoration: none !important;
+  color: black;
+}
 .landingtextbox {
   display: inline-block;
   /* position: relative; */

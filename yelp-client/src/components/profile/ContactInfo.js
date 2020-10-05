@@ -7,6 +7,7 @@ import '../../App';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   getCustomerDetails,
   updateContactInfo,
@@ -48,7 +49,13 @@ class ContactInfo extends Component {
         localStorage.setItem('email_id', this.state.email);
       }
       alert('Updated Successfully');
-      redirectVar = <Redirect to='/user/user_details' />;
+      redirectVar = (
+        <Redirect
+          to={{
+            pathname: `/user/${localStorage.getItem('user_id')}/user_details`,
+          }}
+        />
+      );
     }
     return (
       <React.Fragment>
@@ -95,9 +102,15 @@ class ContactInfo extends Component {
                 <Button variant='danger' type='submit'>
                   Save Changes
                 </Button>
-                <a href='/user/user_details' style={{ marginLeft: '15px' }}>
+                <Link
+                  to={{
+                    pathname: `/user/${localStorage.getItem(
+                      'user_id',
+                    )}/user_details`,
+                  }}
+                  style={{ marginLeft: '15px' }}>
                   Cancel
-                </a>
+                </Link>
               </Form>
             </div>
           </div>

@@ -17,6 +17,8 @@ import ViewEvents from './Events/ViewEvents';
 import CreateEvent from './Events/CreateEvent';
 import RestaurantList from './Customer/RestaurantList';
 import Review from './Customer/Review';
+import Events from './Customer/Events';
+import ViewEvent from './Customer/ViewEvent';
 
 function Main() {
   return (
@@ -25,7 +27,7 @@ function Main() {
       <Route exact path='/login' component={Login} />
       <Route exact path='/customersignup' component={CustomerSignup} />
       <Route exact path='/ownersignup' component={RestaurantOwnerSignup} />
-      <Route exact path='/user/user_details' component={UserDetails} />
+      <Route exact path='/user/:userid/user_details' component={UserDetails} />
       <Route exact path='/user/basic_details' component={BasicDetails} />
       <Route exact path='/user/about_section' component={AboutSection} />
       <Route exact path='/user/contact_info' component={ContactInfo} />
@@ -58,6 +60,8 @@ function Main() {
       />
       <Route exact path='/res/restaurant_list/' component={RestaurantList} />
       <Route exact path='/res/:resid/addreview' component={Review} />
+      <Route exact path='/res/events' component={Events} />
+      <Route exact path='/res/:eventid/view' component={ViewEvent} />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import '../../App';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   getCustomerDetails,
   updateCustomerBasicDetails,
@@ -56,7 +57,13 @@ class BasicDetails extends Component {
         localStorage.setItem('last_name', this.state.lastName);
       }
       alert('Updated successfully');
-      redirectVar = <Redirect to='/user/user_details' />;
+      redirectVar = (
+        <Redirect
+          to={{
+            pathname: `/user/${localStorage.getItem('user_id')}/user_details`,
+          }}
+        />
+      );
     }
     return (
       <React.Fragment>
@@ -193,9 +200,15 @@ class BasicDetails extends Component {
                     Save Changes
                   </Button>
                 </ButtonGroup>
-                <a href='/user/user_details' style={{ marginLeft: '15px' }}>
+                <Link
+                  to={{
+                    pathname: `/user/${localStorage.getItem(
+                      'user_id',
+                    )}/user_details`,
+                  }}
+                  style={{ marginLeft: '15px' }}>
                   Cancel
-                </a>
+                </Link>
               </Form>
             </div>
           </div>
