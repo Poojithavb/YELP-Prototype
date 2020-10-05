@@ -43,4 +43,23 @@ router.post('/eventimage', uploadeventimage.single('image'), (req, res) => {
   }
 });
 
+const profilestorage = multer.diskStorage({
+  destination: path.join(__dirname, '..') + '/public/uploads/profileImage',
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const uploadprofileimage = multer({ storage: profilestorage });
+
+router.post('/profileimage', uploadprofileimage.single('image'), (req, res) => {
+  try {
+    return res.status(201).json({
+      message: 'File uploded successfully',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;

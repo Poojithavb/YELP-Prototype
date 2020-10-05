@@ -35,7 +35,6 @@ class RestaurantList extends Component {
           //   imgsrc = `${connectionServer}/yelp/images/events/${this.state.data[i].filename}`;
           imgsrc = { img1 };
         }
-
         renderOutput.push(
           <Card className='pl-5 pr-5 pt-3'>
             <Card.Body className='pl-0'>
@@ -61,10 +60,15 @@ class RestaurantList extends Component {
               )}
             </Card.Body>
             <Card.Footer>
-              <Link>
-                <button className='btn btn-outline-secondary'>
-                  Start Order
-                </button>
+              <Link
+                className='btn btn-outline-secondary'
+                to={{
+                  pathname: `/res/${this.state.data[i].rest_id}/restaurant_info`,
+                }}>
+                <span className='mr-2'>
+                  <i className='fas fa-utensils'></i>
+                </span>
+                Start Order
               </Link>
             </Card.Footer>
           </Card>,

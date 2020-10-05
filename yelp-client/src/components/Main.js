@@ -19,6 +19,7 @@ import RestaurantList from './Customer/RestaurantList';
 import Review from './Customer/Review';
 import Events from './Customer/Events';
 import ViewEvent from './Customer/ViewEvent';
+import PhotoUpload from './profile/PhotoUpload';
 
 function Main() {
   return (
@@ -28,6 +29,7 @@ function Main() {
       <Route exact path='/customersignup' component={CustomerSignup} />
       <Route exact path='/ownersignup' component={RestaurantOwnerSignup} />
       <Route exact path='/user/:userid/user_details' component={UserDetails} />
+      <Route exact path='/user/:userid/photo_upload/' component={PhotoUpload} />
       <Route exact path='/user/basic_details' component={BasicDetails} />
       <Route exact path='/user/about_section' component={AboutSection} />
       <Route exact path='/user/contact_info' component={ContactInfo} />

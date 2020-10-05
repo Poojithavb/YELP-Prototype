@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.min';
 import { Card, CardImg, Jumbotron } from 'react-bootstrap';
-import profilepic from '../../images/profile-icon.png';
+import connectionServer from '../../webConfig';
 import '../../App.css';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCustomerDetails } from '../../store/actions/customerProfileAction';
@@ -11,27 +12,19 @@ import { getCustomerDetails } from '../../store/actions/customerProfileAction';
 class UserProfileJumbo extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // profileImage: '',
-      // uploadedFile: '',
-      // fileText: '',
-    };
-    this.changeProfileImage = this.changeProfileImage.bind(this);
+    this.state = {};
   }
 
   componentWillMount() {
     this.props.getCustomerDetails();
   }
 
-  changeProfileImage = (e) => {
-    this.setState({
-      uploadedFile: e.target.files[0],
-      fileText: e.target.files[0].name,
-    });
-    console.log(e.target.files[0]);
-  };
-
   render() {
+    let imgsrc = null;
+    if (this.props.user.profilepic) {
+      imgsrc = `${connectionServer}/yelp/images/user/${this.props.user.profilepic}`;
+    }
+    console.log(imgsrc);
     return (
       <React.Fragment>
         <Jumbotron>
@@ -39,25 +32,12 @@ class UserProfileJumbo extends Component {
             <div
               className=' col-md-2 card profilePic'
               style={{ position: 'absolute' }}>
-              <label htmlFor='profileImage'>
-                <a
-                  href='#'
-                  className='btn btn-secondary btn-sm btn-rounded'
-                  style={{ marginLeft: '10px', marginTop: '10px' }}>
-                  <i
-                    className='fas fa-camera'
-                    style={{ marginRight: '10px' }}></i>
-                  Add a photo
-                </a>
-              </label>
-              <input
-                type='file'
-                name='profileImage'
-                id='profileImage'
-                style={{ display: 'none' }}
-                value=''
-                onChange={this.changeProfileImage}></input>
-              <CardImg variant='top' src={profilepic} className='profileImg' />
+              <CardImg
+                className='pt-2'
+                variant='top'
+                src={imgsrc}
+                className='profileImg'
+              />
             </div>
             <div className='col-md-3'></div>
             <div className='col-md-5 profileName'>
@@ -74,12 +54,17 @@ class UserProfileJumbo extends Component {
               <div className='col-md-3 vertical-divider'>
                 <ul className='list-unstyled'>
                   <li>
-                    <a href='#'>
+                    <Link
+                      to={{
+                        pathname: `/user/${localStorage.getItem(
+                          'user_id',
+                        )}/photo_upload/`,
+                      }}>
                       <span>
                         <i className='fas fa-camera'></i>{' '}
                       </span>
                       Add Profile Photo
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <a href='/user/basic_details'>

@@ -193,12 +193,16 @@ class RestaurantInfo extends Component {
                   {this.props.user.email}
                 </li>
                 <li className='list-group-item'>
-                  <a href='/res/restaurant_info/menu'>
+                  <Link
+                    to={{
+                      pathname: '/res/restaurant_info/menu',
+                      state: { restName: this.props.user.name },
+                    }}>
                     <span className='mr-2'>
                       <i className='fas fa-utensils'></i>
                     </span>
                     Full Menu
-                  </a>
+                  </Link>
                 </li>
                 {localStorage.getItem('name') && (
                   <li className='list-group-item'>

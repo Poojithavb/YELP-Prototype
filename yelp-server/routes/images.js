@@ -27,4 +27,15 @@ router.get('/events/:filename', (req, res) => {
   }
 });
 
+router.get('/user/:filename', (req, res) => {
+  const image =
+    path.join(__dirname, '..') +
+    '/public/uploads/profileImage/' +
+    req.params.filename;
+
+  if (fs.existsSync(image)) {
+    res.sendFile(image);
+  }
+});
+
 module.exports = router;
