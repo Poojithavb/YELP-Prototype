@@ -4,6 +4,7 @@ import connectionServer from '../../webConfig';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Card, Form, Button, FormControl } from 'react-bootstrap';
+import RegisteredEvents from './RegisteredEvents';
 
 class Events extends Component {
   constructor(props) {
@@ -27,7 +28,9 @@ class Events extends Component {
   }
 
   render() {
+    console.log(this.state.events);
     let renderOutput = [];
+
     if (this.state && this.state.data && this.state.data.length > 0) {
       for (var i = 0; i < this.state.data.length; i++) {
         let imgsrc = null;
@@ -86,6 +89,7 @@ class Events extends Component {
                 Browse Events
               </h3>
             </div>
+
             <div className='col-md-6 mt-5 pl-5'>
               <Form inline style={{ float: 'right' }}>
                 <Form inline>
@@ -98,8 +102,16 @@ class Events extends Component {
                 </Form>
               </Form>
             </div>
-            {renderOutput}
           </div>
+          <div className='row'>
+            <RegisteredEvents />
+          </div>
+          <div className='row'>
+            <h4 className='ml-5 mt-5' style={{ color: ' #d0312d' }}>
+              All Events
+            </h4>
+          </div>
+          <div className='row'>{renderOutput}</div>
         </div>
       </React.Fragment>
     );
