@@ -71,7 +71,6 @@ router.post('/:user_id/contactInfo/', (req, res) => {
 router.post('/:user_id/uploadphoto/', (req, res) => {
   const sql = `CALL update_user_image(${req.params.user_id},'${req.body.filename}')`;
   pool.query(sql, (err, result) => {
-    console.log(sql);
     if (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain' });
       res.end('Some error has occured');

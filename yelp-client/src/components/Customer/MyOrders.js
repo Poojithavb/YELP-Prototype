@@ -111,7 +111,13 @@ class MyOrders extends Component {
                   <p class='card-text'>
                     Status - {this.state.data[i].order_status}
                   </p>
-                  <p class='card-text'> ${this.state.data[i].totalPrice}</p>
+                  <p class='card-text'>
+                    Order Type - {this.state.data[i].category}
+                  </p>
+                  <p class='card-text'>
+                    {' '}
+                    Price - ${this.state.data[i].totalPrice}
+                  </p>
                   <div>
                     <button
                       href='#'
@@ -136,6 +142,7 @@ class MyOrders extends Component {
                     </Modal>
                   </div>
                 </div>
+                <hr />
               </div>
             </div>
           </div>,

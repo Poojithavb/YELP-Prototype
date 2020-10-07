@@ -74,4 +74,19 @@ router.get('/:event_id/registeredpeople', (req, res) => {
     }
   });
 });
+
+router.get('/showregistered/:user_id', (req, res) => {
+  const sql = `CALL get_event_registration_customer(${req.params.user_id})`;
+  pool.query(sql, (err, result) => {
+    if (err) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Some error has occured');
+    }
+    if (result && result.length > 0 && result[0]) {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end(JSON.stringify(result[0]));
+    }
+  });
+});
+
 module.exports = router;

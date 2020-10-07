@@ -104,6 +104,14 @@ class NavLandingPage extends Component {
               style={{ color: '#fff' }}>
               Restaurant
             </Link>
+            {localStorage.getItem('user_id') && (
+              <Link
+                to={{ pathname: `/${localStorage.getItem('user_id')}/orders/` }}
+                className='nav-landing'
+                style={{ color: '#fff' }}>
+                Orders
+              </Link>
+            )}
           </div>
           <div className='col-md-3'>{login}</div>
         </div>

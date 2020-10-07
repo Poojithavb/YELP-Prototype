@@ -13,6 +13,7 @@ import UpdateProfile from './Restaurant/UpdateProfile';
 import AddDish from './Restaurant/AddDish';
 import EditDish from './Restaurant/EditDish';
 import Menu from './Restaurant/Menu';
+import Orders from './Restaurant/Orders';
 import ViewEvents from './Events/ViewEvents';
 import CreateEvent from './Events/CreateEvent';
 import RestaurantList from './Customer/RestaurantList';
@@ -20,6 +21,7 @@ import Review from './Customer/Review';
 import Events from './Customer/Events';
 import ViewEvent from './Customer/ViewEvent';
 import PhotoUpload from './profile/PhotoUpload';
+import MyOrders from './Customer/MyOrders';
 
 function Main() {
   return (
@@ -60,10 +62,12 @@ function Main() {
         path='/res/restaurant_info/:resid/createevent'
         component={CreateEvent}
       />
+      <Route exact path='/res/restaurant_info/orders' component={Orders} />
       <Route exact path='/res/restaurant_list/' component={RestaurantList} />
       <Route exact path='/res/:resid/addreview' component={Review} />
       <Route exact path='/res/events' component={Events} />
       <Route exact path='/res/:eventid/view' component={ViewEvent} />
+      <Route exact path='/:userid/orders' component={MyOrders} />
     </div>
   );
 }

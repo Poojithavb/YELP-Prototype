@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from '../profile/UserProfileNavBar';
 import { Card, Button, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import connectionServer from '../../webConfig';
 
 import axios from 'axios';
@@ -13,8 +13,11 @@ class Menu extends Component {
       items: [],
       category: '',
       totalCost: 0,
+      quantity: 0,
     };
+    this.changeHandler = this.changeHandler.bind(this);
     this.handleCheckbox = this.handleCheckbox.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
 
@@ -36,19 +39,67 @@ class Menu extends Component {
       });
   }
 
+  changeHandler = (e) => {
+    this.setState({ quantity: e.target.value });
+  };
+
   handleCheckboxChange(e) {
-    this.setState({ items: this.state.items.concat([e.target.name]) });
+    let newObj = { [e.target.name]: parseInt(this.state.quantity) };
+    this.setState({ items: this.state.items.concat(newObj) });
     this.setState({
-      totalCost: this.state.totalCost + parseFloat(e.target.value),
+      totalCost:
+        this.state.totalCost + parseFloat(e.target.value) * this.state.quantity,
     });
-    // this.setState({ items: this.state.items.concat({e.target.name: 1}) });
+    this.setState({ quantity: 0 });
   }
 
   handleCheckbox(e) {
     this.setState({ category: e.target.value });
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    // alert(`Total Cost $ ${this.state.totalCost}`);
+
+    const cust_order = {
+      totalPrice: this.state.totalCost,
+      category: this.state.category,
+      order_status: 'Order Placed',
+      cust_id: localStorage.getItem('user_id'),
+      rest_id: localStorage.getItem('rest_id'),
+      items: this.state.items,
+    };
+
+    axios
+      .post(`${connectionServer}/yelp/orders/placeorder`, cust_order)
+      .then((response) => {
+        if (response.data.status === 'ORDER_PLACED') {
+          this.setState({
+            message: response.data.status,
+          });
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          message: 'ORDER_ERROR',
+        });
+      });
+  }
+
   render() {
+    let redirectVar = null;
+    if (this.state.message === 'ORDER_PLACED') {
+      alert(
+        `Order Placed Successfully, Your total cost $ ${this.state.totalCost}`,
+      );
+      redirectVar = (
+        <Redirect
+          to={{
+            pathname: `/res/${localStorage.getItem('rest_id')}/restaurant_info`,
+          }}></Redirect>
+      );
+    }
+    console.log(redirectVar);
     let renderOutput = [];
     if (this.state && this.state.data && this.state.data.length > 0) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -112,6 +163,15 @@ class Menu extends Component {
                 <label>Price: </label> ${this.state.data[i].price}
                 {localStorage.getItem('first_name') && (
                   <div>
+                    <input
+                      type='number'
+                      id='quantity'
+                      name={this.state.data[i].dishname}
+                      min='0'
+                      max='10'
+                      step='1'
+                      onChange={this.changeHandler}
+                    />
                     <Form.Check
                       name={this.state.data[i].dishname}
                       label='Add to Cart'
@@ -128,9 +188,10 @@ class Menu extends Component {
         );
       }
     }
-    console.log(this.state);
+
     return (
       <React.Fragment>
+        {redirectVar}
         <NavBar />
         <div className='container mt-5 pl-5'>
           <h3>Menu for {this.props.location.state.restName}</h3>
@@ -164,7 +225,8 @@ class Menu extends Component {
           </Link>
           <Button
             className='btn btn-danger mb-5 mr-2'
-            style={{ float: 'right' }}>
+            style={{ float: 'right' }}
+            onClick={this.handleSubmit}>
             Place Order
           </Button>
         </div>

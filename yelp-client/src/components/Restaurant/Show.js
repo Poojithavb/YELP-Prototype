@@ -224,6 +224,16 @@ class RestaurantInfo extends Component {
                     </a>
                   </li>
                 )}
+                {localStorage.getItem('name') && (
+                  <li className='list-group-item'>
+                    <a href='/res/restaurant_info/orders'>
+                      <span className='mr-2'>
+                        <i class='fas fa-list-alt'></i>
+                      </span>
+                      Orders
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
