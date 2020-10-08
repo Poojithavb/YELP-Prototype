@@ -99,7 +99,13 @@ class NavLandingPage extends Component {
               Events
             </a>
             <Link
-              to='/res/restaurant_list/'
+              to={{
+                pathname: '/res/restaurant_list/',
+                state: {
+                  keyword: null,
+                  selectoption: 0,
+                },
+              }}
               className='nav-landing'
               style={{ color: '#fff' }}>
               Restaurant

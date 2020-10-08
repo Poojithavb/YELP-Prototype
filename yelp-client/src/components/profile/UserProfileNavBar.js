@@ -35,20 +35,22 @@ class UserProfileNavBar extends Component {
 
   handleInputChange(e) {
     this.setState({ selectoption: parseInt(e.target.value) });
+    this.forceUpdate();
   }
 
   searchChangeHandler(e) {
     this.setState({ keyword: e.target.value });
-    console.log(this.state);
+    this.forceUpdate();
   }
 
   handleSubmit(e) {
-    this.setState({ isSignedUp: true }, () => {});
+    this.setState({ isSignedUp: true });
   }
 
   render() {
     let redirectVar = null;
     if (this.state.isSignedUp) {
+      this.setState({ isSignedUp: false });
       redirectVar = (
         <Redirect
           to={{
@@ -94,23 +96,15 @@ class UserProfileNavBar extends Component {
                 autoComplete='on'
                 onChange={this.searchChangeHandler}
               />
-              <Link
-                to={{
-                  pathname: '/res/restaurant_list/',
-                  state: {
-                    keyword: this.state.keyword,
-                    selectoption: this.state.selectoption,
-                  },
-                }}>
-                <button
-                  style={{
-                    backgroundColor: 'red',
-                  }}
-                  type='button'
-                  className='btn'>
-                  <i className='fas fa-search'></i>
-                </button>
-              </Link>
+              <button
+                style={{
+                  backgroundColor: 'red',
+                }}
+                type='button'
+                className='btn'
+                onClick={this.handleSubmit}>
+                <i className='fas fa-search'></i>
+              </button>
             </form>
           </div>
           <div>

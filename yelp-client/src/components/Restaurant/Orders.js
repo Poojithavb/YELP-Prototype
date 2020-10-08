@@ -78,6 +78,7 @@ class Orders extends Component {
       order_id: this.state.order_id,
       order_status: this.state.orderStatus,
     };
+    console.log(this.state.orderStatus);
     return axios
       .post(`${connectionServer}/yelp/orders/update`, data)
       .then((response) => {

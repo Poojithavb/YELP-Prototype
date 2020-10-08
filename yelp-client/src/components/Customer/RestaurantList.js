@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import img1 from '../../images/res1_1.jpg';
 import connectionServer from '../../webConfig';
 import axios from 'axios';
+import { data } from 'jquery';
 
 class RestaurantList extends Component {
   constructor(props) {
@@ -15,49 +16,63 @@ class RestaurantList extends Component {
     };
   }
 
-  componentWillMount() {
-    // axios
-    //   .get(`${connectionServer}/yelp/restaurant/list`)
-    //   .then((response) => {
-    //     this.setState({
-    //       data: response.data,
-    //     });
-    //     if (this.props.location.state.newdata) {
-    //       this.setState({
-    //         data: this.props.location.state.newdata,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
+  componentDidMount() {
     if (
       this.props.location.state &&
       this.props.location.state.keyword !== 'undefined'
     ) {
-      console.log('hello');
-      this.setState({
-        selectoption: this.props.location.state.selectoption,
-        keyword: this.props.location.state.keyword,
-      });
+      this.setState(
+        {
+          selectoption: this.props.location.state.selectoption,
+          keyword: this.props.location.state.keyword,
+        },
+        () => {
+          axios
+            .get(
+              `${connectionServer}/yelp/restaurant/searchlist/${this.state.selectoption}/${this.state.keyword}`,
+            )
+            .then((response) =>
+              this.setState({
+                data: response.data,
+              }),
+            )
+            .catch((error) => {
+              console.log(error);
+            });
+        },
+      );
     }
-    axios
-      .get(
-        `${connectionServer}/yelp/restaurant/searchlist/${this.state.selectoption}/${this.state.keyword}`,
-      )
-      .then((response) =>
-        this.setState({
-          data: response.data,
-        }),
-      )
-      .catch((error) => {
-        console.log(error);
-      });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.location.state &&
+      this.state.keyword !== this.props.location.state.keyword
+    ) {
+      this.setState(
+        {
+          keyword: this.props.location.state.keyword,
+          selectoption: this.props.location.state.selectoption,
+        },
+        () => {
+          axios
+            .get(
+              `${connectionServer}/yelp/restaurant/searchlist/${this.state.selectoption}/${this.state.keyword}`,
+            )
+            .then((response) =>
+              this.setState({
+                data: response.data,
+              }),
+            )
+            .catch((error) => {
+              console.log(error);
+            });
+        },
+      );
+    }
   }
 
   render() {
-    console.log(this.state);
     let renderOutput = [];
     if (this.state && this.state.data && this.state.data.length > 0) {
       for (var i = 0; i < this.state.data.length; i++) {
