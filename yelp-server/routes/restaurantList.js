@@ -35,7 +35,6 @@ router.post('/:rest_id/addreview', (req, res) => {
 router.get('/searchlist/:selectoption/:keyword', (req, res) => {
   const sql = `CALL get_searchRest('${req.params.keyword}',${req.params.selectoption})`;
   pool.query(sql, (err, result) => {
-    console.log(sql);
     if (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain' });
       res.end('Some error has occured');

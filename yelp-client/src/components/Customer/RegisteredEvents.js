@@ -56,6 +56,14 @@ class RegisteredEvents extends Component {
         );
       }
     }
+    else
+    { 
+      renderRegistered.push(
+        <Card.Body  className='ml-5 mt-4'>
+          <p>No Upcoming Events</p>
+        </Card.Body>
+      )
+    }
 
     return (
       <div className='col-md-5 mt-5 ml-5 mr-4'>

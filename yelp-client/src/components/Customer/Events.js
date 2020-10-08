@@ -9,7 +9,12 @@ import RegisteredEvents from './RegisteredEvents';
 class Events extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      searchText:null,
+      tempData:[]
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   componentWillMount() {
     axios
@@ -20,11 +25,37 @@ class Events extends Component {
       .then((response) =>
         this.setState({
           data: response.data,
+          tempData:response.data,
         }),
       )
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  handleChange(e)
+  {
+    
+    this.setState({searchText:e.target.value})
+  }
+
+  handleSearch(e)
+  {
+    e.preventDefault()
+    axios
+        .get(
+          `${connectionServer}/yelp/events/${this.state.searchText}/search
+        `,
+        )
+        .then((response) =>
+          this.setState({
+            data: response.data,
+          }),
+        )
+        .catch((error) => {
+          console.log(error);
+        });
+    
   }
 
   render() {
@@ -97,15 +128,16 @@ class Events extends Component {
                     type='text'
                     placeholder='Search Event'
                     className=' mr-sm-2'
+                    onChange={this.handleChange}
                   />
-                  <Button type='submit'>Submit</Button>
+                  <Button type='submit' onClick={this.handleSearch}>Submit</Button>
                 </Form>
               </Form>
             </div>
           </div>
-          <div className='row'>
+          {localStorage.getItem('user_id') && ( <div className='row'>
             <RegisteredEvents />
-          </div>
+          </div>)}
           <div className='row'>
             <h4 className='ml-5 mt-5' style={{ color: ' #d0312d' }}>
               All Events

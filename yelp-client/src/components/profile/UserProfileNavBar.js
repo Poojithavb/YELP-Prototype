@@ -15,7 +15,7 @@ class UserProfileNavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      keyword: '',
+      keyword: null,
       selectoption: 0,
       isSignedUp: false,
     };
@@ -35,12 +35,14 @@ class UserProfileNavBar extends Component {
 
   handleInputChange(e) {
     this.setState({ selectoption: parseInt(e.target.value) });
-    this.forceUpdate();
+    
   }
 
   searchChangeHandler(e) {
+    if(e.target.value===' '){
+      this.setState({ keyword: null});
+    }
     this.setState({ keyword: e.target.value });
-    this.forceUpdate();
   }
 
   handleSubmit(e) {
@@ -80,7 +82,7 @@ class UserProfileNavBar extends Component {
                 className='custom-select input-group'
                 id='inputGroupSelect02'
                 onChange={this.handleInputChange}>
-                <option selected>Select...</option>
+                <option value='0' selected>All...</option>
                 <option value='1'>Mode of delivery</option>
                 <option value='2'>Location</option>
                 <option value='3'>Cuisine</option>
@@ -115,7 +117,13 @@ class UserProfileNavBar extends Component {
                 </a>
               </li>
               <li className='nav-item active mr-2 btn'>
-                <Link to='/res/restaurant_list/' className='nav-button'>
+                <Link  to={{
+                pathname: '/res/restaurant_list/',
+                state: {
+                  keyword: null,
+                  selectoption: 0,
+                },
+              }} className='nav-button'>
                   Restaurant
                 </Link>
               </li>

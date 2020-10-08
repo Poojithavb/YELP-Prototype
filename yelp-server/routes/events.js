@@ -89,4 +89,17 @@ router.get('/showregistered/:user_id', (req, res) => {
   });
 });
 
+router.get('/:event_name/search', (req, res) => {
+  const sql = `CALL get_search_events('${req.params.event_name}')`;
+  pool.query(sql, (err, result) => {
+    if (err) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Some error has occured');
+    }
+    if (result && result.length > 0 && result[0]) {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end(JSON.stringify(result[0]));
+    }
+  });
+});
 module.exports = router;

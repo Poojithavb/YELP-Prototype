@@ -88,12 +88,12 @@ class ViewEvent extends Component {
                   <i class='far fa-clock'></i> {this.state.data.time}
                 </p>
                 <p class='card-text'>Hashtag - {this.state.data.hashtags}</p>
-                <button
+                {localStorage.getItem('user_id') && (<button
                   href='#'
                   class='btn btn-primary'
                   onClick={this.handleRegister}>
                   Register
-                </button>
+                </button>)}
                 <a href='/res/events' class='btn btn-primary ml-2'>
                   Back
                 </a>
