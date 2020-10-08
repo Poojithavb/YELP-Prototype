@@ -4,16 +4,20 @@ import connectionServer from '../../webConfig';
 import axios from 'axios';
 import img1 from '../../images/res1_1.jpg';
 import Modal from 'react-modal';
-import { Card } from 'react-bootstrap';
+import { Card, Form, Button } from 'react-bootstrap';
 
 class MyOrders extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
+      data: [],
+      tempUserOrders: [],
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleCancelOrder = this.handleCancelOrder.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
 
   componentWillMount() {
@@ -27,6 +31,7 @@ class MyOrders extends Component {
       .then((response) =>
         this.setState({
           data: response.data,
+          tempUserOrders: response.data,
         }),
       )
       .catch((error) => {
@@ -56,6 +61,36 @@ class MyOrders extends Component {
     this.setState({ showModal: false });
   }
 
+  handleCheckboxChange(e) {
+    e.preventDefault();
+    let order_status = e.target.id;
+    let filteredData = this.state.data.filter(
+      (order) => order.order_status === order_status,
+    );
+
+    if (order_status === 'All Orders') {
+      filteredData = this.state.data;
+    }
+    this.setState({ tempUserOrders: filteredData });
+  }
+
+  handleCancelOrder(arg) {
+    const data = {
+      order_id: arg,
+    };
+
+    return axios
+      .post(`${connectionServer}/yelp/orders/cancel`, data)
+      .then((response) => {
+        if (response.data.status === 'cancelled') {
+          window.location = `/${localStorage.getItem('user_id')}/orders`;
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   render() {
     console.log(this.state.orderDet);
     let renderOutput = [];
@@ -83,10 +118,14 @@ class MyOrders extends Component {
       }
     }
 
-    if (this.state && this.state.data && this.state.data.length > 0) {
-      for (var i = 0; i < this.state.data.length; i++) {
+    if (
+      this.state &&
+      this.state.tempUserOrders &&
+      this.state.tempUserOrders.length > 0
+    ) {
+      for (var i = 0; i < this.state.tempUserOrders.length; i++) {
         let imgsrc = img1;
-        let order_id = this.state.data[i].order_id;
+        let order_id = this.state.tempUserOrders[i].order_id;
 
         renderOutput.push(
           <div className='container mb-5'>
@@ -100,23 +139,26 @@ class MyOrders extends Component {
               <div className='col-md-6'>
                 <div class='card-body'>
                   <h5 class='card-title' style={{ color: ' #1167b1' }}>
-                    {this.state.data[i].name}
+                    {this.state.tempUserOrders[i].name}
                   </h5>
 
                   <p class='card-text'>
                     {' '}
                     <i className='far fa-calendar mr-2'></i>
-                    {this.state.data[i].date}
+                    {this.state.tempUserOrders[i].date}
                   </p>
                   <p class='card-text'>
-                    Status - {this.state.data[i].order_status}
+                    Status - {this.state.tempUserOrders[i].order_status}
                   </p>
                   <p class='card-text'>
-                    Order Type - {this.state.data[i].category}
+                    Order Type - {this.state.tempUserOrders[i].category}
+                  </p>
+                  <p class='card-text'>
+                    Order Category - {this.state.tempUserOrders[i].order_type}
                   </p>
                   <p class='card-text'>
                     {' '}
-                    Price - ${this.state.data[i].totalPrice}
+                    Price - ${this.state.tempUserOrders[i].totalPrice}
                   </p>
                   <div>
                     <button
@@ -140,6 +182,13 @@ class MyOrders extends Component {
                         Close Modal
                       </button>
                     </Modal>
+                    <button
+                      href='#'
+                      class='btn btn-danger btn-sm'
+                      onClick={() => this.handleCancelOrder(order_id)}
+                      style={{ marginLeft: '10px' }}>
+                      Cancel Order
+                    </button>
                   </div>
                 </div>
                 <hr />
@@ -153,9 +202,99 @@ class MyOrders extends Component {
       <React.Fragment>
         <NavBar />
         <div className='container'>
-          <h2 className='mt-5 ml-5' style={{ color: ' #d0312d' }}>
+          <h2 className='mt-5 ml-5' style={{ color: '#d0312d' }}>
             Order History
           </h2>
+          <div
+            className='btn-group btn-group-toggle mt-3'
+            data-toggle='buttons'
+            style={{ marginLeft: '10%' }}>
+            <label
+              class='btn btn-outline-secondary rounded-pill active'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='All Orders'
+                id='All Orders'
+                autocomplete='off'
+                checked
+                onClick={this.handleCheckboxChange}
+              />
+              All Orders
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Order Received'
+                id='Order Received'
+                autocomplete='off'
+                onClick={this.handleCheckboxChange}
+              />
+              Order Received
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Preparing'
+                id='Preparing'
+                autocomplete='off'
+                onClick={this.handleCheckboxChange}
+              />
+              Preparing
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Pickup Ready'
+                id='Pickup Ready'
+                autocomplete='off'
+                onClick={this.handleCheckboxChange}
+              />
+              Pickup Ready
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='On the way'
+                id='On the way'
+                autocomplete='off'
+                onClick={this.handleCheckboxChange}
+              />
+              On the way
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Picked up'
+                id='Picked up'
+                autocomplete='off'
+                onClick={this.handleCheckboxChange}
+              />
+              Picked up
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Delivered'
+                id='Delivered'
+                autocomplete='off'
+                onClick={this.handleCheckboxChange}
+              />
+              Delivered
+            </label>
+          </div>
         </div>
         {renderOutput}
       </React.Fragment>

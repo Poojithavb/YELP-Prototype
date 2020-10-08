@@ -6,14 +6,23 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../../App.css';
 import { Dropdown } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { logout } from '../../store/actions/loginAction';
+import connectionServer from '../../webConfig';
+import axios from 'axios';
 
 class UserProfileNavBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      keyword: '',
+      selectoption: 0,
+      isSignedUp: false,
+    };
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.searchChangeHandler = this.searchChangeHandler.bind(this);
   }
 
   handleLogout() {
@@ -24,91 +33,138 @@ class UserProfileNavBar extends Component {
     window.location.href = '/';
   }
 
+  handleInputChange(e) {
+    this.setState({ selectoption: parseInt(e.target.value) });
+  }
+
+  searchChangeHandler(e) {
+    this.setState({ keyword: e.target.value });
+    console.log(this.state);
+  }
+
+  handleSubmit(e) {
+    this.setState({ isSignedUp: true }, () => {});
+  }
+
   render() {
+    let redirectVar = null;
+    if (this.state.isSignedUp) {
+      redirectVar = (
+        <Redirect
+          to={{
+            pathname: '/res/restaurant_list/',
+            state: {
+              keyword: this.state.keyword,
+              selectoption: this.state.selectoption,
+            },
+          }}></Redirect>
+      );
+    }
     return (
-      <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-        <div className='collapse navbar-collapse' id='navbarSupportedContent'>
-          <a href='/'>
-            <img
-              src={logo}
-              alt='logo'
-              className='banner-img profile-logo'></img>
-          </a>
-        </div>
-        <div className='nav-search-btn'>
-          <form className='form-inline my-2 my-lg-0'>
-            <input
-              className='form-control mr-sm-2'
-              type='search'
-              placeholder='Search'
-              aria-label='Search'
-              maxLength='64'
-            />
-            <input
-              className='form-control mr-sm-2'
-              type='search'
-              placeholder='Search'
-              aria-label='Search'
-              maxLength='64'
-            />
-            <br></br>
-            <button
-              style={{
-                width: '8%',
-                backgroundColor: 'red',
-              }}
-              type='button'
-              className='btn'>
-              <i className='fas fa-search'></i>
-            </button>
-          </form>
-        </div>
-        <div>
-          <ul className='navbar-nav mr-auto'>
-            <li className='nav-item active mr-2 btn'>
-              <a href='/res/events' className='nav-button'>
-                Events
-              </a>
-            </li>
-            <li className='nav-item active mr-2 btn'>
-              <Link to='/res/restaurant_list/' className='nav-button'>
-                Restaurant
+      <React.Fragment>
+        {redirectVar}
+        <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+          <div className='collapse navbar-collapse' id='navbarSupportedContent'>
+            <a href='/'>
+              <img
+                src={logo}
+                alt='logo'
+                className='banner-img profile-logo'></img>
+            </a>
+          </div>
+          <div className='navbar' style={{ marginRight: '10%' }}>
+            <form className='form-inline mx-auto'>
+              <select
+                className='custom-select input-group'
+                id='inputGroupSelect02'
+                onChange={this.handleInputChange}>
+                <option selected>Select...</option>
+                <option value='1'>Mode of delivery</option>
+                <option value='2'>Location</option>
+                <option value='3'>Cuisine</option>
+                <option value='4'>Dish Name</option>
+              </select>
+              <input
+                style={{ width: '330px' }}
+                list='searchWord'
+                className='form-control lg-5'
+                type='search'
+                placeholder='Restaurant Search'
+                aria-label='Search'
+                autoComplete='on'
+                onChange={this.searchChangeHandler}
+              />
+              <Link
+                to={{
+                  pathname: '/res/restaurant_list/',
+                  state: {
+                    keyword: this.state.keyword,
+                    selectoption: this.state.selectoption,
+                  },
+                }}>
+                <button
+                  style={{
+                    backgroundColor: 'red',
+                  }}
+                  type='button'
+                  className='btn'>
+                  <i className='fas fa-search'></i>
+                </button>
               </Link>
-            </li>
-            <li className='nav-item'>
-              <Dropdown style={{ float: 'right' }}>
-                <Dropdown.Toggle variant='secondary' id='dropdown-basic'>
-                  <i className='far fa-user'></i>
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {localStorage.getItem('first_name') && (
-                    <Dropdown.Item>
-                      <Link
-                        to={{
-                          pathname: `/user/${localStorage.getItem(
-                            'user_id',
-                          )}/user_details`,
-                        }}>
-                        <span className='mr-2'>
-                          <i className='far fa-user'></i>
-                        </span>
-                        About Me
-                      </Link>
+            </form>
+          </div>
+          <div>
+            <ul className='navbar-nav mr-auto'>
+              <li className='nav-item active mr-2 btn'>
+                <a href='/res/events' className='nav-button'>
+                  Events
+                </a>
+              </li>
+              <li className='nav-item active mr-2 btn'>
+                <Link to='/res/restaurant_list/' className='nav-button'>
+                  Restaurant
+                </Link>
+              </li>
+              <li className='nav-item'>
+                <Dropdown style={{ float: 'right' }}>
+                  <Dropdown.Toggle variant='secondary' id='dropdown-basic'>
+                    <i className='far fa-user'></i>
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    {localStorage.getItem('first_name') && (
+                      <Dropdown.Item>
+                        <Link
+                          to={{
+                            pathname: `/user/${localStorage.getItem(
+                              'user_id',
+                            )}/user_details`,
+                          }}>
+                          <span className='mr-2'>
+                            <i className='far fa-user'></i>
+                          </span>
+                          About Me
+                        </Link>
+                      </Dropdown.Item>
+                    )}
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={this.handleLogout}>
+                      <span className='mr-2'>
+                        <i className='fas fa-sign-out-alt'></i>
+                      </span>
+                      Logout
                     </Dropdown.Item>
-                  )}
-                  <Dropdown.Divider />
-                  <Dropdown.Item onClick={this.handleLogout}>
-                    <span className='mr-2'>
-                      <i className='fas fa-sign-out-alt'></i>
-                    </span>
-                    Logout
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </li>
-          </ul>
-        </div>
-      </nav>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <nav className='navbar-expand-lg navbar-light bg-light'>
+          <div className='container-fluid'>
+            <div className='navbar-header'></div>
+          </div>
+        </nav>
+      </React.Fragment>
     );
   }
 }

@@ -141,6 +141,7 @@ div a {
 
 .nav-search-btn {
   margin-right: 20%;
+  width: 20%;
 }
 
 Jumbotron {
@@ -207,4 +208,16 @@ Jumbotron {
 .img-overlay:before {
   content: ' ';
   display: block;
+}
+
+.btndefault {
+  font-family: Raleway-SemiBold;
+  font-size: 13px;
+  color: rgba(108, 88, 179, 0.75);
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgba(108, 89, 179, 0.75);
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
 }

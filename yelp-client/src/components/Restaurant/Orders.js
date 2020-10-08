@@ -11,11 +11,14 @@ class Orders extends Component {
     super(props);
     this.state = {
       showModal: false,
+      data: [],
+      tempUserOrders: [],
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
+    this.handleCheckboxtypeChange = this.handleCheckboxtypeChange.bind(this);
   }
 
   componentWillMount() {
@@ -29,6 +32,7 @@ class Orders extends Component {
       .then((response) =>
         this.setState({
           data: response.data,
+          tempUserOrders: response.data,
         }),
       )
       .catch((error) => {
@@ -74,7 +78,6 @@ class Orders extends Component {
       order_id: this.state.order_id,
       order_status: this.state.orderStatus,
     };
-
     return axios
       .post(`${connectionServer}/yelp/orders/update`, data)
       .then((response) => {
@@ -87,8 +90,21 @@ class Orders extends Component {
       });
   };
 
+  handleCheckboxtypeChange(e) {
+    e.preventDefault();
+    let order_type = e.target.id;
+    let filteredData = this.state.data.filter(
+      (order) => order.order_type === order_type,
+    );
+
+    if (order_type === 'All Orders') {
+      filteredData = this.state.data;
+    }
+
+    this.setState({ tempUserOrders: filteredData });
+  }
+
   render() {
-    console.log(this.state.orderDet);
     let renderOutput = [];
     let renderOrders = [];
     let totalPrice = null;
@@ -114,12 +130,16 @@ class Orders extends Component {
       }
     }
 
-    if (this.state && this.state.data && this.state.data.length > 0) {
-      for (var i = 0; i < this.state.data.length; i++) {
-        let order_id = this.state.data[i].order_id;
+    if (
+      this.state &&
+      this.state.tempUserOrders &&
+      this.state.tempUserOrders.length > 0
+    ) {
+      for (var i = 0; i < this.state.tempUserOrders.length; i++) {
+        let order_id = this.state.tempUserOrders[i].order_id;
         let button1;
         let button2;
-        if (this.state.data[i].category === 'PickUp') {
+        if (this.state.tempUserOrders[i].category === 'PickUp') {
           button1 = (
             <Form.Check
               id={order_id}
@@ -132,7 +152,7 @@ class Orders extends Component {
           button2 = (
             <Form.Check
               id={order_id}
-              name={this.state.data[i].order_status}
+              name={this.state.tempUserOrders[i].order_status}
               label='Picked up'
               value='Picked up'
               onChange={this.handleCheckboxChange}
@@ -170,25 +190,31 @@ class Orders extends Component {
                   <h5 class='card-title' style={{ color: ' #1167b1' }}>
                     <Link
                       to={{
-                        pathname: `/user/${this.state.data[i].cust_id}/user_details`,
+                        pathname: `/user/${this.state.tempUserOrders[i].cust_id}/user_details`,
                       }}>
-                      {this.state.data[i].firstname}{' '}
-                      {this.state.data[i].lastname}
+                      {this.state.tempUserOrders[i].firstname}{' '}
+                      {this.state.tempUserOrders[i].lastname}
                     </Link>
                   </h5>
 
                   <p class='card-text'>
                     {' '}
                     <i className='far fa-calendar mr-2'></i>
-                    {this.state.data[i].date}
+                    {this.state.tempUserOrders[i].date}
                   </p>
                   <p class='card-text'>
-                    Status - {this.state.data[i].order_status}
+                    Status - {this.state.tempUserOrders[i].order_status}
                   </p>
                   <p class='card-text'>
-                    Order Type - {this.state.data[i].category}
+                    Order Type - {this.state.tempUserOrders[i].category}
                   </p>
-                  <p class='card-text'> ${this.state.data[i].totalPrice}</p>
+                  <p class='card-text'>
+                    Order Category - {this.state.tempUserOrders[i].order_type}
+                  </p>
+                  <p class='card-text'>
+                    {' '}
+                    ${this.state.tempUserOrders[i].totalPrice}
+                  </p>
                   <div>
                     <button
                       href='#'
@@ -257,11 +283,65 @@ class Orders extends Component {
       <React.Fragment>
         <NavBar />
         <div className='container'>
-          <h2 className='mt-5 ml-5' style={{ color: ' #d0312d' }}>
-            Order History
+          <h2 className='mt-5 ml-5' style={{ color: '#d0312d' }}>
+            Orders
           </h2>
+          <div
+            className='btn-group btn-group-toggle mt-3'
+            data-toggle='buttons'
+            style={{ marginLeft: '10%' }}>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='All Orders'
+                id='All Orders'
+                autocomplete='off'
+                onClick={this.handleCheckboxtypeChange}
+                checked
+              />
+              All Orders
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill active'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='New Order'
+                id='New Order'
+                autocomplete='off'
+                onClick={this.handleCheckboxtypeChange}
+              />
+              New Order
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Delivered'
+                id='Delivered'
+                autocomplete='off'
+                onClick={this.handleCheckboxtypeChange}
+              />
+              Delivered
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Cancelled'
+                id='Cancelled'
+                autocomplete='off'
+                onClick={this.handleCheckboxtypeChange}
+              />
+              Cancelled
+            </label>
+          </div>
+          <div className='col-md-10'>{renderOutput}</div>
         </div>
-        {renderOutput}
       </React.Fragment>
     );
   }

@@ -9,12 +9,43 @@ import axios from 'axios';
 class RestaurantList extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      keyword: null,
+      selectoption: 0,
+    };
   }
 
   componentWillMount() {
+    // axios
+    //   .get(`${connectionServer}/yelp/restaurant/list`)
+    //   .then((response) => {
+    //     this.setState({
+    //       data: response.data,
+    //     });
+    //     if (this.props.location.state.newdata) {
+    //       this.setState({
+    //         data: this.props.location.state.newdata,
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    if (
+      this.props.location.state &&
+      this.props.location.state.keyword !== 'undefined'
+    ) {
+      console.log('hello');
+      this.setState({
+        selectoption: this.props.location.state.selectoption,
+        keyword: this.props.location.state.keyword,
+      });
+    }
     axios
-      .get(`${connectionServer}/yelp/restaurant/list`)
+      .get(
+        `${connectionServer}/yelp/restaurant/searchlist/${this.state.selectoption}/${this.state.keyword}`,
+      )
       .then((response) =>
         this.setState({
           data: response.data,
@@ -26,6 +57,7 @@ class RestaurantList extends Component {
   }
 
   render() {
+    console.log(this.state);
     let renderOutput = [];
     if (this.state && this.state.data && this.state.data.length > 0) {
       for (var i = 0; i < this.state.data.length; i++) {
