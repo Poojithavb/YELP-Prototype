@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import NavBar from '../profile/UserProfileNavBar';
 import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import img1 from '../../images/res1_1.jpg';
 import connectionServer from '../../webConfig';
 import axios from 'axios';
 import MapContainer from './Map'

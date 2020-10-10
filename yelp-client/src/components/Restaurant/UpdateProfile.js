@@ -16,6 +16,7 @@ class UpdateProfile extends Component {
     this.state = {};
     this.changeHandler = this.changeHandler.bind(this);
     this.updateDetails = this.updateDetails.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
 
   componentWillMount() {
@@ -28,6 +29,10 @@ class UpdateProfile extends Component {
     });
   };
 
+  handleCheckboxChange(e) {
+    this.setState({ deliveryMethod: e.target.value });
+  }
+
   updateDetails(e) {
     e.preventDefault();
     const data = {
@@ -39,6 +44,7 @@ class UpdateProfile extends Component {
       state: e.target.elements.userstate.value,
       zipcode: e.target.elements.zipcode.value,
       phone: e.target.elements.phone.value,
+      deliveryMethod: this.state.deliveryMethod,
       openingtime: e.target.elements.openingtime.value,
       closingtime: e.target.elements.closingtime.value,
     };
@@ -170,6 +176,29 @@ class UpdateProfile extends Component {
                     name='phone'
                     onChange={this.changeHandler}
                     defaultValue={this.props.user.phone}
+                  />
+                </Form.Group>
+                <Form.Group>
+                <Form.Label>
+                    <strong>Delivery Method</strong>
+                  </Form.Label>
+                <Form.Check
+                    name='curbsidePickup'
+                    label='Curbside Pickup'
+                    value='Curbside Pickup'
+                    onChange={this.handleCheckboxChange}
+                  />
+                  <Form.Check
+                    name='dineIn'
+                    label='Dine In'
+                    value='Dine In'
+                    onChange={this.handleCheckboxChange}
+                  />
+                  <Form.Check
+                    name='yelpDelivery'
+                    label='Yelp Delivery'
+                    value='Yelp Delivery'
+                    onChange={this.handleCheckboxChange}
                   />
                 </Form.Group>
                 <Form.Group controlId='formtime'>

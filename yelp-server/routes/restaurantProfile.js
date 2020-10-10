@@ -22,7 +22,7 @@ router.post('/:rest_id/details', (req, res) => {
     req.body.name
   }','${req.body.email}','${req.body.address}','${req.body.description}','${
     req.body.city
-  }','${req.body.state}','${req.body.phone}','${req.body.openingtime}','${
+  }','${req.body.state}','${req.body.phone}', '${req.body.deliveryMethod}','${req.body.openingtime}','${
     req.body.closingtime
   }',${req.body.zipcode === '' ? 'NULL' : req.body.zipcode})`;
 

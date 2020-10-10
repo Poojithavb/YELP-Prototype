@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import NavBar from '../profile/UserProfileNavBar';
 import connectionServer from '../../webConfig';
 import axios from 'axios';
-import img1 from '../../images/res1_1.jpg';
 import Modal from 'react-modal';
 import { Card, Form, Button } from 'react-bootstrap';
 
@@ -124,7 +123,7 @@ class MyOrders extends Component {
       this.state.tempUserOrders.length > 0
     ) {
       for (var i = 0; i < this.state.tempUserOrders.length; i++) {
-        let imgsrc = img1;
+        let imgsrc = `${connectionServer}/yelp/images/rest/${this.state.tempUserOrders[i].filename}`;
         let order_id = this.state.tempUserOrders[i].order_id;
 
         renderOutput.push(
@@ -132,8 +131,8 @@ class MyOrders extends Component {
             <div className='row mt-5  border-secondary'>
               <div className='col-md-1'></div>
               <div className='col-md-3'>
-                <div class='card' style={{ width: '15rem', marginTop: '28px' }}>
-                  <img class='card-img-top' src={imgsrc} alt='Card image cap' />
+                <div class='card' style={{ width: '15rem', marginTop: '28px', }}>
+                  <img class='card-img-top' src={imgsrc} alt='Card image cap' style={{height:'200px'}} />
                 </div>
               </div>
               <div className='col-md-6'>

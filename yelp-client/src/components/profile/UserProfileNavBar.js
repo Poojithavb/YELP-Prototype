@@ -142,6 +142,14 @@ class UserProfileNavBar extends Component {
                   Restaurant
                 </Link>
               </li> )}
+              {localStorage.getItem('user_id') && (<li className='nav-item active mr-2 btn'>
+              <Link
+                to={{ pathname: `/${localStorage.getItem('user_id')}/orders/` }}
+                className='nav-button'>
+                Orders
+              </Link>
+              </li>
+            )}
               <li className='nav-item'>
               {localStorage.getItem('yelp_user') && (<Dropdown style={{ float: 'right' }}>
                   <Dropdown.Toggle variant='secondary' id='dropdown-basic'>

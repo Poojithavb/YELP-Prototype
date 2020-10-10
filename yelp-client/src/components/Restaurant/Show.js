@@ -144,19 +144,19 @@ class RestaurantInfo extends Component {
                   Add Photo
                 </button>
                 </Link>
-                <Link
+                {localStorage.getItem('name') && (<Link
                   to={{
                     pathname: `/res/restaurant_info/${localStorage.getItem(
                       'rest_id',
                     )}/events`,
                   }}>
-                  <button className='btn btn-outline-dark ml-2'>
+                   <button className='btn btn-outline-dark ml-2'>
                     <span className='mr-2'>
                       <i className='far fa-calendar-check'></i>
                     </span>
                     Events
                   </button>
-                </Link>
+                </Link>)}
               </p>
             </div>
             <div className='col-md-4'>
