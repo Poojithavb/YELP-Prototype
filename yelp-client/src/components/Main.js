@@ -14,6 +14,7 @@ import AddDish from './Restaurant/AddDish';
 import EditDish from './Restaurant/EditDish';
 import Menu from './Restaurant/Menu';
 import Orders from './Restaurant/Orders';
+import AddPhoto from './Restaurant/AddPhoto';
 import ViewEvents from './Events/ViewEvents';
 import CreateEvent from './Events/CreateEvent';
 import RestaurantList from './Customer/RestaurantList';
@@ -63,7 +64,8 @@ function Main() {
         component={CreateEvent}
       />
       <Route exact path='/res/restaurant_info/orders' component={Orders} />
-      <Route exact path='/res/restaurant_list/' component={RestaurantList} />
+      <Route exact path='/res/restaurant_info/addphoto' component={AddPhoto} />
+      <Route exact path='/res/restaurant_list' component={RestaurantList} />
       <Route exact path='/res/:resid/addreview' component={Review} />
       <Route exact path='/res/events' component={Events} />
       <Route exact path='/res/:eventid/view' component={ViewEvent} />

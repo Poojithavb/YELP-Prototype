@@ -38,4 +38,15 @@ router.get('/user/:filename', (req, res) => {
   }
 });
 
+router.get('/rest/:filename', (req, res) => {
+  const image =
+    path.join(__dirname, '..') +
+    '/public/uploads/restaurantImage/' +
+    req.params.filename;
+
+  if (fs.existsSync(image)) {
+    res.sendFile(image);
+  }
+});
+
 module.exports = router;

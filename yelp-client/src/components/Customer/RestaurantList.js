@@ -92,19 +92,16 @@ class RestaurantList extends Component {
   }
 
   render() {
+    
     let renderOutput = [];
     if (this.state && this.state.data && this.state.data.length > 0) {
       for (var i = 0; i < this.state.data.length; i++) {
-        let imgsrc = null;
+        let imgsrc = `${connectionServer}/yelp/images/rest/${this.state.data[i].filename}`;
         let restId = this.state.data[i].rest_id;
-        if (this.state.data[i].filename) {
-          //   imgsrc = `${connectionServer}/yelp/images/events/${this.state.data[i].filename}`;
-          imgsrc = { img1 };
-        }
         renderOutput.push(
           <Card className='pl-5 pr-5 pt-3'>
             <Card.Body className='pl-0'>
-              <Card.Img src={img1} />
+              <Card.Img src={imgsrc} style={{height:'250px'}} />
 
               <Card.Title className='card-img-top img-fluid mt-2'>
                 <Link

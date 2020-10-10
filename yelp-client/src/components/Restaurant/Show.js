@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import NavBar from '../profile/UserProfileNavBar';
-import img1 from '../../images/res1_1.jpg';
-import img2 from '../../images/res1_2.jpg';
-import img3 from '../../images/res1_3.jpg';
-import img4 from '../../images/res1_4.jpg';
+import connectionServer from '../../webConfig';
 import '../../App.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -29,8 +26,7 @@ class RestaurantInfo extends Component {
 
   render() {
     let renderOutput = [];
-    let renderStars = [];
-
+    let imgsrc =  `${connectionServer}/yelp/images/rest/${this.props.user.filename}`;
     if (this.props && this.props.reviews && this.props.reviews.length > 0) {
       for (var i = 0; i < this.props.reviews.length; i++) {
         renderOutput.push(
@@ -62,38 +58,14 @@ class RestaurantInfo extends Component {
         <NavBar />
         <div className='container pt-5' style={{ height: '470px' }}>
           <div className='row'>
-            <div className='col-md-12'>
+            <div className='col-md-12'  style={{ width: '100%', height: '600px'}}>
               <img
-                src={img1}
+                src={imgsrc}
                 className='rounded float-left  res-img'
                 alt='...'
-                style={{ width: '100%', height: '50%' }}
+                
               />
             </div>
-            {/* <div className='col-md-3 col-sm-6 col-xs-12'>
-              <img
-                src={img2}
-                className='rounded float-left res-img'
-                alt='...'
-              />
-            </div>
-            <div className='col-md-3 col-sm-6 col-xs-12'>
-              <img
-                src={img3}
-                className='rounded float-right res-img'
-                alt='...'
-              />
-            </div>
-            <div className='col-md-3 col-sm-6 col-xs-12 img-wrapper'>
-              <img
-                src={img4}
-                className='rounded float-right res-img'
-                alt='...'
-              /> */}
-            {/* <div className='img-overlay'>
-                <button className='button btn-light btn-lg'>See All</button>
-              </div> */}
-            {/* </div> */}
           </div>
         </div>
         <div className='container'>
@@ -157,12 +129,21 @@ class RestaurantInfo extends Component {
                     Write a Review
                   </button>
                 </Link>
+                <Link
+                  to={{
+                    pathname: '/res/restaurant_info/addphoto',
+                    state: {
+                      id:this.props.user.rest_id,
+                      name: this.props.user.name,
+                    },
+                  }}>
                 <button className='btn btn-outline-dark ml-2'>
                   <span className='mr-2'>
                     <i className='fas fa-camera' aria-hidden='true'></i>
                   </span>
                   Add Photo
                 </button>
+                </Link>
                 <Link
                   to={{
                     pathname: `/res/restaurant_info/${localStorage.getItem(

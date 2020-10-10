@@ -52,4 +52,18 @@ router.get('/:rest_id/reviews', (req, res) => {
   });
 });
 
+router.post('/:rest_id/uploadphoto/', (req, res) => {
+  const sql = `CALL update_restaurant_image(${req.params.rest_id},'${req.body.filename}')`;
+  pool.query(sql, (err, result) => {
+    if (err) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Some error has occured');
+    }
+    if (result && result.length > 0 && result[0][0].status) {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end(result[0][0].status);
+    }
+  });
+});
+
 module.exports = router;

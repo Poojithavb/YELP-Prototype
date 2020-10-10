@@ -62,4 +62,23 @@ router.post('/profileimage', uploadprofileimage.single('image'), (req, res) => {
   }
 });
 
+const reststorage = multer.diskStorage({
+  destination: path.join(__dirname, '..') + '/public/uploads/restaurantImage',
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const uploadrestimage = multer({ storage: reststorage });
+
+router.post('/restaurantimage', uploadrestimage.single('image'), (req, res) => {
+  try {
+    return res.status(201).json({
+      message: 'File uploded successfully',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;
