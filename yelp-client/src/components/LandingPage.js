@@ -14,36 +14,6 @@ class LandingPage extends Component {
           <div className='container'>
             <div className='landing-header'>
               <img src={logo} className='logo'></img>
-              <div className='input-group'>
-                <span className='form-rounded'>Find</span>
-                <input
-                  autoComplete='off'
-                  maxLength='64'
-                  placeholder='plumbers, delivery, takeout...'
-                  aria-autocomplete='list'
-                  tabIndex='1'
-                  className='form-control landingtextbox'
-                />
-
-                <input
-                  autoComplete='off'
-                  maxLength='64'
-                  placeholder='address...'
-                  aria-autocomplete='list'
-                  tabIndex='1'
-                  className='form-control landingtextbox'
-                />
-                <button
-                  style={{
-                    width: '5%',
-                    opacity: '1.0',
-                    backgroundColor: 'red',
-                  }}
-                  type='button'
-                  className='btn'>
-                  <i className='fas fa-search'></i>
-                </button>
-              </div>
               <br />
             </div>
           </div>

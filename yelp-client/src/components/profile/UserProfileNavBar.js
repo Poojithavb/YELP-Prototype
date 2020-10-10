@@ -69,14 +69,29 @@ class UserProfileNavBar extends Component {
         {redirectVar}
         <nav className='navbar navbar-expand-lg navbar-light bg-light'>
           <div className='collapse navbar-collapse' id='navbarSupportedContent'>
+         
+
+            {localStorage.getItem('name') ? (
+               <Link
+               to={{
+                 pathname: `/res/${localStorage.getItem('rest_id')}/restaurant_info`,
+               }}
+             >
             <a href='/'>
               <img
                 src={logo}
                 alt='logo'
                 className='banner-img profile-logo'></img>
-            </a>
+          </a>
+          </Link>) :  <a href='/'>
+              <img
+                src={logo}
+                alt='logo'
+                className='banner-img profile-logo'></img>
+          </a> }
+
           </div>
-          <div className='navbar' style={{ marginRight: '10%' }}>
+          {localStorage.getItem('name') ? null: ( <div className='navbar' style={{ marginRight: '10%' }}>
             <form className='form-inline mx-auto'>
               <select
                 className='custom-select input-group'
@@ -108,15 +123,15 @@ class UserProfileNavBar extends Component {
                 <i className='fas fa-search'></i>
               </button>
             </form>
-          </div>
+          </div>)}
           <div>
             <ul className='navbar-nav mr-auto'>
-              <li className='nav-item active mr-2 btn'>
+            {localStorage.getItem('name') ? null:  (<li className='nav-item active mr-2 btn'>
                 <a href='/res/events' className='nav-button'>
                   Events
                 </a>
-              </li>
-              <li className='nav-item active mr-2 btn'>
+              </li>)}
+              {localStorage.getItem('name') ? null: (<li className='nav-item active mr-2 btn'>
                 <Link  to={{
                 pathname: '/res/restaurant_list/',
                 state: {
@@ -126,9 +141,9 @@ class UserProfileNavBar extends Component {
               }} className='nav-button'>
                   Restaurant
                 </Link>
-              </li>
+              </li> )}
               <li className='nav-item'>
-                <Dropdown style={{ float: 'right' }}>
+              {localStorage.getItem('yelp_user') && (<Dropdown style={{ float: 'right' }}>
                   <Dropdown.Toggle variant='secondary' id='dropdown-basic'>
                     <i className='far fa-user'></i>
                   </Dropdown.Toggle>
@@ -156,7 +171,7 @@ class UserProfileNavBar extends Component {
                       Logout
                     </Dropdown.Item>
                   </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown>)}
               </li>
             </ul>
           </div>

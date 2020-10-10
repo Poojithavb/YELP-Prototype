@@ -42,12 +42,14 @@ class Login extends Component {
       localStorage.setItem('first_name', this.props.user.firstname);
       localStorage.setItem('user_id', this.props.user.cust_id);
       localStorage.setItem('last_name', this.props.user.lastname);
+      localStorage.setItem('yelp_user', 'yes');
       redirectVar = <Redirect to='/' />;
     } else if (this.props.user && this.props.user.rest_id) {
       localStorage.setItem('email_id', this.props.user.email);
       localStorage.setItem('name', this.props.user.name);
       localStorage.setItem('rest_id', this.props.user.rest_id);
       localStorage.setItem('zipcode', this.props.user.zipcode);
+      localStorage.setItem('yelp_user', 'yes');
       redirectVar = (
         <Redirect
           to={{

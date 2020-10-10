@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import img1 from '../../images/res1_1.jpg';
 import connectionServer from '../../webConfig';
 import axios from 'axios';
-import { data } from 'jquery';
+import MapContainer from './Map'
 
 class RestaurantList extends Component {
   constructor(props) {
@@ -13,7 +13,10 @@ class RestaurantList extends Component {
     this.state = {
       keyword: null,
       selectoption: 0,
+      tempdata:[],
+      data:[],
     };
+    this.handleCheckboxtypeChange = this.handleCheckboxtypeChange.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +36,7 @@ class RestaurantList extends Component {
             )
             .then((response) =>
               this.setState({
+                tempdata:response.data,
                 data: response.data,
               }),
             )
@@ -61,6 +65,7 @@ class RestaurantList extends Component {
             )
             .then((response) =>
               this.setState({
+                tempdata:response.data,
                 data: response.data,
               }),
             )
@@ -70,6 +75,20 @@ class RestaurantList extends Component {
         },
       );
     }
+  }
+
+  handleCheckboxtypeChange(e) {
+    e.preventDefault();
+    let delivery_method = e.target.id;
+    
+    let filteredData = this.state.tempdata.filter(
+      (order) => order.delivery_method === delivery_method,
+    );
+
+    if (delivery_method === 'All') {
+      filteredData = this.state.tempdata;
+    }
+    this.setState({ data: filteredData });
   }
 
   render() {
@@ -129,8 +148,68 @@ class RestaurantList extends Component {
           <h3 style={{ color: ' #d0312d' }} className='pl-3'>
             Restaurants
           </h3>
-          <br />
-          <div className='col-md-6'>{renderOutput}</div>
+          <div
+            className='btn-group btn-group-toggle mt-3'
+            data-toggle='buttons'
+            style={{ marginLeft: '2%' }}>
+              <label
+              class='btn btn-outline-secondary rounded-pill active'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='All'
+                id='All'
+                autocomplete='off'
+                checked
+                onClick={this.handleCheckboxtypeChange}
+              />
+              All Restaurants
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Curbside Pickup'
+                id='Curbside Pickup'
+                autocomplete='off'
+                onClick={this.handleCheckboxtypeChange}
+              />
+             Curbside Pickup
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Dine In'
+                id='Dine In'
+                autocomplete='off'
+                onClick={this.handleCheckboxtypeChange}
+              />
+              Dine In
+            </label>
+            <label
+              class='btn btn-outline-secondary rounded-pill'
+              style={{ marginRight: '10px' }}>
+              <input
+                type='radio'
+                name='Yelp Delivery'
+                id='Yelp Delivery'
+                autocomplete='off'
+                onClick={this.handleCheckboxtypeChange}
+              />
+              Yelp Delivery
+            </label>
+            <br />
+          </div>
+          <div className='row'>
+          <div className='col-md-6'><br />{renderOutput}</div>
+        
+        <div className='col-md-5 ml-2 mt-5 sticky-top' style={{height:'500px'}}>
+         {/* <MapContainer restaurantlist={this.state.data}></MapContainer> */}
+        </div>
+        </div>
         </div>
       </React.Fragment>
     );
