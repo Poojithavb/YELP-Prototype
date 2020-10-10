@@ -14,6 +14,10 @@ class UserDetails extends Component {
   }
 
   componentWillMount() {
+   if(this.props.location.state && this.props.location.state.customerId)
+   {
+     localStorage.setItem('user_id',this.props.location.state.customerId)
+   }
     this.props.getCustomerDetails();
   }
 

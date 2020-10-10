@@ -60,11 +60,12 @@ class ViewEvents extends Component {
     let renderPeople = [];
     if (this.state && this.state.regPeople && this.state.regPeople.length > 0) {
       for (var i = 0; i < this.state.regPeople.length; i++) {
-        localStorage.setItem('user_id', this.state.regPeople[i].cust_id);
+        let userid= this.state.regPeople[i].cust_id;
         renderPeople.push(
           <Link
             to={{
               pathname: `/user/${localStorage.getItem('user_id')}/user_details`,
+              state:{customerId:userid}
             }}>
             {this.state.regPeople[i].first_name}
           </Link>,

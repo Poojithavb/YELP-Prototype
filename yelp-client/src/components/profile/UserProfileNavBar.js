@@ -142,9 +142,9 @@ class UserProfileNavBar extends Component {
                   Restaurant
                 </Link>
               </li> )}
-              {localStorage.getItem('user_id') && (<li className='nav-item active mr-2 btn'>
+              {localStorage.getItem('first_name') && (<li className='nav-item active mr-2 btn'>
               <Link
-                to={{ pathname: `/${localStorage.getItem('user_id')}/orders/` }}
+                to={{ pathname: `/${localStorage.getItem('user_id')}/orders/`}}
                 className='nav-button'>
                 Orders
               </Link>

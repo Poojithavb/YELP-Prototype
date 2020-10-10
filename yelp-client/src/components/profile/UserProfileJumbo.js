@@ -24,7 +24,6 @@ class UserProfileJumbo extends Component {
     if (this.props.user.profilepic) {
       imgsrc = `${connectionServer}/yelp/images/user/${this.props.user.profilepic}`;
     }
-    console.log(imgsrc);
     return (
       <React.Fragment>
         <Jumbotron>

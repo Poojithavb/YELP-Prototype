@@ -140,6 +140,7 @@ class Orders extends Component {
         let order_id = this.state.tempUserOrders[i].order_id;
         let button1;
         let button2;
+        let userid = this.state.tempUserOrders[i].cust_id;
         if (this.state.tempUserOrders[i].category === 'PickUp') {
           button1 = (
             <Form.Check
@@ -192,6 +193,7 @@ class Orders extends Component {
                     <Link
                       to={{
                         pathname: `/user/${this.state.tempUserOrders[i].cust_id}/user_details`,
+                        state:{customerId:userid}
                       }}>
                       {this.state.tempUserOrders[i].firstname}{' '}
                       {this.state.tempUserOrders[i].lastname}
