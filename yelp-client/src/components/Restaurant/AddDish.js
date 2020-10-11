@@ -95,7 +95,7 @@ class AddDish extends Component {
   render() {
     let redirectVar = null;
     if (this.state.message === 'Inserted') {
-      redirectVar = <Redirect to='/res/restaurant_info' />;
+      redirectVar = <Redirect to={{pathname:`/res/${localStorage.getItem('rest_id')}/restaurant_info`}} />;
     }
     return (
       <React.Fragment>

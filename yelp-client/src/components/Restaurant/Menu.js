@@ -198,6 +198,7 @@ class Menu extends Component {
           <br />
           <div className='col-md-7'>{renderOutput}</div>
           <br />
+          {localStorage.getItem('first_name') && (
           <div className='pl-3'>
             <label style={{ color: 'red' }}>Select Delivery Method</label>
             <Form.Check
@@ -212,7 +213,7 @@ class Menu extends Component {
               value='Delivery'
               onChange={this.handleCheckbox}
             />
-          </div>
+          </div>)}
           <Link
             to={{
               pathname: `/res/${localStorage.getItem(
@@ -223,12 +224,12 @@ class Menu extends Component {
               Cancel
             </a>
           </Link>
-          <Button
+          {localStorage.getItem('first_name') && (<Button
             className='btn btn-danger mb-5 mr-2'
             style={{ float: 'right' }}
             onClick={this.handleSubmit}>
             Place Order
-          </Button>
+          </Button>)}
         </div>
       </React.Fragment>
     );

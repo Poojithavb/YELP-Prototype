@@ -123,7 +123,7 @@ class AddEditDish extends Component {
   render() {
     let redirectVar = null;
     if (this.state.message === 'Updated') {
-      redirectVar = <Redirect to='/res/restaurant_info/menu' />;
+      redirectVar = <Redirect to={{pathname:`/res/${localStorage.getItem('rest_id')}/restaurant_info`}} />;
     }
 
     return (
