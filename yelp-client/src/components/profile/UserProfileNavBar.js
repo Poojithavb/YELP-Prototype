@@ -102,6 +102,7 @@ class UserProfileNavBar extends Component {
                 <option value='2'>Location</option>
                 <option value='3'>Cuisine</option>
                 <option value='4'>Dish Name</option>
+                <option value='5'>Restaurant Name</option>
               </select>
               <input
                 style={{ width: '330px' }}
