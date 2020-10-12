@@ -44,7 +44,7 @@ onClose = props => {
 };
 
 getlocation=()=>{
-    Geocode.setApiKey('AIzaSyAkTFpnLYFTVDW-8tadbns29Kf7CpEO8Co');
+    Geocode.setApiKey('xxxxxxxxxxxxxxxxxxxxxxxxxx');
     this.props.restaurantlist.forEach((restaurent)=>{
     let address = restaurent.address.concat(' ',restaurent.city);
     let name = restaurent.name;
@@ -103,5 +103,5 @@ getlocation=()=>{
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyAkTFpnLYFTVDW-8tadbns29Kf7CpEO8Co'
+  apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 })(MapContainer);
