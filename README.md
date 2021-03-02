@@ -3,7 +3,7 @@
 Install node.js
 
 ### Back End
-Markup : 1. Git clone the yelp-server(backend) folder.
+         1. Git clone the yelp-server(backend) folder.
          2. Open the terminal in the folder "yelp-server".
          3. Execute "npm install" to install all the dependencies.
          4. Create database in MySQL and import Yelpdbdump.sql.
