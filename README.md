@@ -1,8 +1,8 @@
-Prototype of yelp application
+#Prototype of yelp application
 
 Install node.js
 
-Back End
+##Back End
 Git clone the yelp-server(backend) folder.
 Open the terminal in the folder "yelp-server".
 Execute "npm install" or "npm i" to install all the dependencies.
@@ -10,7 +10,7 @@ Create database in MySQL and import Yelpdbdump.sql.
 Update pool.js to include the database connection details. Update app.js to include front end server port.
 Run node index.js
 
-Front End
+##Front End
 Git clone the yelp-client(frontend) folder.
 Open the terminal in the folder "yelp-client".
 Execute "npm start" to run the front end server. Run npm start.
